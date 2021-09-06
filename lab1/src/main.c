@@ -4,9 +4,7 @@
  */
 
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "utils.h"
 
 #define MAXLINE 1000
 
@@ -37,59 +35,15 @@ find_longest_line(FILE *file)
   return longest_length;
 }
 
-uint
-read_line(char *line, int num, FILE *input)
-{
-  char c;
-  uint i;
-  for (i = 0; i < num - 1 && (c = fgetc(input)) != EOF && c != '\n'; ++i) {
-    line[i] = c;
-  }
-  line[i] = '\0';
-  return i;
-}
-
-uint
-str_len(const char *str)
-{
-  uint i;
-  for (i = 0; str[i] != '\0'; ++i)
-    ;
-  return i;
-}
-
-int
-reverse_find(const char *haystack, char needle)
-{
-  for (uint i = str_len(haystack) - 1; i >= 0; --i) {
-    if (haystack[i] == needle) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-uint
-occurs_in_str(const char *haystack, char needle)
-{
-  uint count = 0;
-  for (uint i = 0; i < str_len(haystack); ++i) {
-    if (haystack[i] == needle) {
-      ++count;
-    }
-  }
-  return count;
-}
-
 void
-insert_in_str(char *dest, const char *str, int index)
+insert_in_str(char *dest, char const *str, int index)
 {
   char tmp[MAXLINE];
-  strncpy(tmp, dest, index);
+  str_ncpy(tmp, dest, index);
   tmp[index] = '\0';
-  strcat(tmp, str);
-  strcat(tmp, dest + index);
-  strcpy(dest, tmp);
+  str_cat(tmp, str);
+  str_cat(tmp, dest + index);
+  str_cpy(dest, tmp);
 }
 
 void
