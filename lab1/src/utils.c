@@ -1,9 +1,9 @@
 #include "utils.h"
 
-uint
+int
 str_len(char const *str)
 {
-  uint i;
+  int i;
   for (i = 0; str[i] != '\0'; ++i)
     ;
   return i;
@@ -36,7 +36,7 @@ str_ncpy(char *dest, char const *source, int num)
 int
 reverse_find(char const *haystack, char const needle)
 {
-  for (uint i = str_len(haystack) - 1; i >= 0; --i) {
+  for (int i = str_len(haystack) - 1; i >= 0; --i) {
     if (haystack[i] == needle) {
       return i;
     }
@@ -44,11 +44,11 @@ reverse_find(char const *haystack, char const needle)
   return -1;
 }
 
-uint
+int
 occurs_in_str(char const *haystack, char const needle)
 {
-  uint count = 0;
-  for (uint i = 0; i < str_len(haystack); ++i) {
+  int count = 0;
+  for (int i = 0; i < str_len(haystack); ++i) {
     if (haystack[i] == needle) {
       ++count;
     }
@@ -56,11 +56,11 @@ occurs_in_str(char const *haystack, char const needle)
   return count;
 }
 
-uint
+int
 read_line(char *line, int num, FILE *input)
 {
   char c;
-  uint i;
+  int i;
   for (i = 0; i < num - 1 && (c = fgetc(input)) != EOF && c != '\n'; ++i) {
     line[i] = c;
   }

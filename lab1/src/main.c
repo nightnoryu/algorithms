@@ -8,16 +8,14 @@
 
 #define MAXLINE 1000
 
-typedef unsigned int uint;
-
-uint
+int
 find_longest_line(FILE *file)
 {
   long post = ftell(file);
   rewind(file);
 
   char c;
-  uint current_length, longest_length;
+  int current_length, longest_length;
   current_length = longest_length = 0;
 
   while ((c = fgetc(file)) != EOF) {
@@ -47,10 +45,10 @@ insert_in_str(char *dest, char const *str, int index)
 }
 
 void
-insert_spaces(char *line, uint amount)
+insert_spaces(char *line, int amount)
 {
   char blanks[amount+1];
-  for (uint i = 0; i < amount; ++i) {
+  for (int i = 0; i < amount; ++i) {
     blanks[i] = ' ';
   }
   blanks[amount] = '\0';
@@ -75,8 +73,8 @@ main(void)
   }
 
   char line[MAXLINE];
-  uint longest_length = find_longest_line(file);
-  uint line_length;
+  int longest_length = find_longest_line(file);
+  int line_length;
 
   while (read_line(line, MAXLINE, file)) {
     line_length = str_len(line);
