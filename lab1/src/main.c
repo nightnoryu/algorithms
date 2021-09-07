@@ -45,23 +45,25 @@ insert_in_str(char *dest, char const *str, int index)
 }
 
 void
-insert_spaces(char *line, int amount)
+insert_spaces(char *line, int max_line)
 {
-  char blanks[amount+1];
-  for (int i = 0; i < amount; ++i) {
-    blanks[i] = ' ';
-  }
-  blanks[amount] = '\0';
-
-  int last_blank_index = reverse_find(line, ' ');
-  if (last_blank_index != -1) {
-    insert_in_str(line, blanks, last_blank_index);
+  int pos;
+  while (str_len(line) < max_line) {
+    pos = find(line, ' ', pos);
+    if (pos != -1) {
+      insert_in_str(line, " ", pos);
+      pos = find_first_not_of(line, ' ', pos+1);
+    } else {
+      pos = 0;
+    }
   }
 }
 
 int
 main(void)
 {
+  setlocale(LC_ALL, "Russian");
+
   char filename[MAXLINE];
   printf("Enter filename: ");
   read_line(filename, MAXLINE, stdin);
@@ -79,10 +81,11 @@ main(void)
   while (read_line(line, MAXLINE, file)) {
     line_length = str_len(line);
     if (line_length < longest_length) {
-      insert_spaces(line, longest_length - line_length);
+      insert_spaces(line, longest_length);
     }
     puts(line);
   }
 
+  fclose(file);
   return EXIT_SUCCESS;
 }

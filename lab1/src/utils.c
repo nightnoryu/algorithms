@@ -34,10 +34,38 @@ str_ncpy(char *dest, char const *source, int num)
 }
 
 int
+find(char const *haystack, char const needle, int pos)
+{
+  if (pos >= str_len(haystack)) {
+    return -1;
+  }
+  for (int i = pos; haystack[i] != '\0'; ++i) {
+    if (haystack[i] == needle) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int
 reverse_find(char const *haystack, char const needle)
 {
   for (int i = str_len(haystack) - 1; i >= 0; --i) {
     if (haystack[i] == needle) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int
+find_first_not_of(char const *haystack, char const needle, int pos)
+{
+  if (pos >= str_len(haystack)) {
+    return -1;
+  }
+  for (int i = pos; haystack[i] != '\0'; ++i) {
+    if (haystack[i] != needle) {
       return i;
     }
   }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 
 int
 str_len(char const *str);
@@ -14,7 +15,13 @@ void
 str_ncpy(char *dest, char const *source, int num);
 
 int
+find(char const *haystack, char const needle, int pos);
+
+int
 reverse_find(char const *haystack, char const needle);
+
+int
+find_first_not_of(char const *haystack, char const needle, int pos);
 
 int
 occurs_in_str(char const *haystack, char const needle);
