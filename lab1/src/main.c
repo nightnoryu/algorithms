@@ -2,13 +2,16 @@
  * lab1
  * justificatice (justification + justice)
  * Выравнивание текста по ширине
+ * TODO: test configuration (like in OOP)
+ *       ignore newlines, tabs and whitespaces before reading a word
  */
 
 #define _CRT_SECURE_NO_WARNINGS
+#include "args.h"
 #include "utils.h"
 
-#define MAXWORD 100
 #define MAXLINE 1000
+#define MAXWORD 100
 
 void
 insert_in_str(char *dest, char const *str, int index)
@@ -24,6 +27,9 @@ insert_in_str(char *dest, char const *str, int index)
 void
 insert_spaces(char *line, int max_line)
 {
+  if (find(line, ' ', 0) == -1) {
+    return;
+  }
   int pos;
   while (str_len(line) < max_line) {
     pos = find(line, ' ', pos);
@@ -37,40 +43,33 @@ insert_spaces(char *line, int max_line)
 }
 
 int
-main(void)
+main(int argc, char **argv)
 {
-  char filename[MAXLINE];
-  int width;
+  struct args_type args = input_args(argc, argv);
 
-  printf("Enter input filename: ");
-  read_line(filename, MAXLINE, stdin);
-  FILE *input = fopen(filename, "r");
+  FILE *input = fopen(args.input_filename, "r");
   if (input == NULL) {
     perror("Error opening input file for reading");
     return EXIT_FAILURE;
   }
 
-  printf("Enter output filename: ");
-  read_line(filename, MAXLINE, stdin);
-  FILE *output = fopen(filename, "w");
+  FILE *output = fopen(args.output_filename, "w");
   if (output == NULL) {
     perror("Error opening output file for reading");
     fclose(input);
     return EXIT_FAILURE;
   }
 
-  printf("Enter text width: ");
-  scanf("%d", &width);
-
   char word[MAXWORD];
   char line[MAXLINE];
   int word_length, line_length = 0;
   str_cpy(line, "");
 
+  // TODO: input first line indent
   while (read_word(word, MAXWORD, input)) {
     word_length = str_len(word);
 
-    if ((line_length + word_length + 1) <= width) {
+    if ((line_length + word_length + 1) <= args.width) {
       if (line_length > 0) {
         str_cat(line, " ");
         line_length += 1;
@@ -78,9 +77,9 @@ main(void)
       str_cat(line, word);
       line_length += word_length;
     } else {
-      if (line_length < width && !feof(input)) {
-        insert_spaces(line, width);
-        line_length = width;
+      if (line_length < args.width && !feof(input)) {
+        insert_spaces(line, args.width);
+        line_length = args.width;
       }
       fprintf(output, "%s\n", line);
       str_cpy(line, word);

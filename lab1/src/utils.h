@@ -1,3 +1,6 @@
+#ifndef UTILS_H
+#define UTILS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -31,3 +34,5 @@ read_line(char *line, int num, FILE *input);
 
 int
 read_word(char *word, int num, FILE *input);
+
+#endif /* #ifndef UTILS_H */
