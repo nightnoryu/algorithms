@@ -80,10 +80,10 @@ main(void)
 
   while (read_line(line, MAXLINE, file)) {
     line_length = str_len(line);
-    if (line_length < longest_length) {
+    if (line_length < longest_length && line_length > (longest_length / 2)) {
       insert_spaces(line, longest_length);
     }
-    puts(line);
+    printf("%s\n", line);
   }
 
   fclose(file);
