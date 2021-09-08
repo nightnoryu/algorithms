@@ -48,17 +48,6 @@ find(char const *haystack, char const needle, int pos)
 }
 
 int
-reverse_find(char const *haystack, char const needle)
-{
-  for (int i = str_len(haystack) - 1; i >= 0; --i) {
-    if (haystack[i] == needle) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-int
 find_first_not_of(char const *haystack, char const needle, int pos)
 {
   if (pos >= str_len(haystack)) {
@@ -73,24 +62,12 @@ find_first_not_of(char const *haystack, char const needle, int pos)
 }
 
 int
-occurs_in_str(char const *haystack, char const needle)
-{
-  int count = 0;
-  for (int i = 0; i < str_len(haystack); ++i) {
-    if (haystack[i] == needle) {
-      ++count;
-    }
-  }
-  return count;
-}
-
-int
 read_line(char *line, int num, FILE *input)
 {
   char c;
-  int i;
-  for (i = 0; i < num - 1 && (c = fgetc(input)) != EOF && c != '\n'; ++i) {
-    line[i] = c;
+  int i = 0;
+  while (i < num - 1 && (c = fgetc(input)) != EOF && c != '\n') {
+    line[i++] = c;
   }
   line[i] = '\0';
   return i;
@@ -100,9 +77,9 @@ int
 read_word(char *word, int num, FILE *input)
 {
   char c;
-  int i;
-  for (i = 0; i < num - 1 && (c = fgetc(input)) != EOF && c != ' ' && c != '\n'; ++i) {
-    word[i] = c;
+  int i = 0;
+  while (i < num - 1 && (c = fgetc(input)) != EOF && c != ' ' && c != '\n') {
+    word[i++] = c;
   }
   word[i] = '\0';
   return i;

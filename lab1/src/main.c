@@ -39,8 +39,6 @@ insert_spaces(char *line, int max_line)
 int
 main(void)
 {
-  setlocale(LC_ALL, "Russian");
-
   char filename[MAXLINE];
   int width;
 
@@ -52,12 +50,22 @@ main(void)
     return EXIT_FAILURE;
   }
 
+  printf("Enter output filename: ");
+  read_line(filename, MAXLINE, stdin);
+  FILE *output = fopen(filename, "w");
+  if (output == NULL) {
+    perror("Error opening output file for reading");
+    fclose(input);
+    return EXIT_FAILURE;
+  }
+
   printf("Enter text width: ");
   scanf("%d", &width);
 
   char word[MAXWORD];
   char line[MAXLINE];
   int word_length, line_length = 0;
+  str_cpy(line, "");
 
   while (read_word(word, MAXWORD, input)) {
     word_length = str_len(word);
@@ -65,23 +73,26 @@ main(void)
     if ((line_length + word_length + 1) <= width) {
       if (line_length > 0) {
         str_cat(line, " ");
+        line_length += 1;
       }
       str_cat(line, word);
-      line_length += word_length + 1;
+      line_length += word_length;
     } else {
-      if (line_length < width) {
+      if (line_length < width && !feof(input)) {
         insert_spaces(line, width);
         line_length = width;
       }
-    }
-
-    if (line_length == width || feof(input)) {
-      puts(line);
-      line_length = 0;
-      str_cpy(line, "");
+      fprintf(output, "%s\n", line);
+      str_cpy(line, word);
+      line_length = word_length;
     }
   }
 
+  if (line_length > 0) {
+    fprintf(output, "%s\n", line);
+  }
+
   fclose(input);
+  fclose(output);
   return EXIT_SUCCESS;
 }
