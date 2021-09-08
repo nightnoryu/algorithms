@@ -28,3 +28,6 @@ occurs_in_str(char const *haystack, char const needle);
 
 int
 read_line(char *line, int num, FILE *input);
+
+int
+read_word(char *word, int num, FILE *input);

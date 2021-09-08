@@ -95,3 +95,15 @@ read_line(char *line, int num, FILE *input)
   line[i] = '\0';
   return i;
 }
+
+int
+read_word(char *word, int num, FILE *input)
+{
+  char c;
+  int i;
+  for (i = 0; i < num - 1 && (c = fgetc(input)) != EOF && c != ' ' && c != '\n'; ++i) {
+    word[i] = c;
+  }
+  word[i] = '\0';
+  return i;
+}
