@@ -1,5 +1,4 @@
 #include "args.h"
-#include "utils.h"
 
 struct args_type
 input_args(int argc, char **argv)
@@ -8,8 +7,8 @@ input_args(int argc, char **argv)
   if (argc == 5) {
     str_cpy(args.input_filename, argv[1]);
     str_cpy(args.output_filename, argv[2]);
-    args.width = 70; // TODO
-    args.first_line_indent = 2; // TODO
+    args.width = atoi(argv[3]);
+    args.first_line_indent = atoi(argv[4]);
   } else {
     printf("Enter input filename: ");
     read_line(args.input_filename, MAXFILENAME, stdin);

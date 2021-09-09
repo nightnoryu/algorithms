@@ -1,6 +1,8 @@
 #ifndef ARGS_H
 #define ARGS_H
 
+#include "utils.h"
+
 #define MAXFILENAME 256
 
 struct args_type {

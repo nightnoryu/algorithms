@@ -2,11 +2,8 @@
  * lab1
  * justificatice (justification + justice)
  * Выравнивание текста по ширине
- * TODO: test configuration (like in OOP)
- *       ignore newlines, tabs and whitespaces before reading a word
  */
 
-#define _CRT_SECURE_NO_WARNINGS
 #include "args.h"
 #include "utils.h"
 
@@ -45,9 +42,9 @@ insert_spaces(char *line, int max_line)
 void
 prepend_first_line_indent(char *line, int amount)
 {
-  char *indentation = malloc(amount+1);
+  char *indentation = malloc(amount);
   int i = 0;
-  while (i < amount) {
+  while (i < amount - 1) {
     indentation[i++] = ' ';
   }
   indentation[i] = '\0';
