@@ -30,7 +30,7 @@ insert_spaces(char *line, int max_line)
   if (find(line, ' ', 0) == -1) {
     return;
   }
-  int pos;
+  int pos = find_first_not_of(line, ' ', 0);
   while (str_len(line) < max_line) {
     pos = find(line, ' ', pos);
     if (pos != -1) {
@@ -40,6 +40,20 @@ insert_spaces(char *line, int max_line)
       pos = 0;
     }
   }
+}
+
+void
+prepend_first_line_indent(char *line, int amount)
+{
+  char *indentation = malloc(amount+1);
+  int i = 0;
+  while (i < amount) {
+    indentation[i++] = ' ';
+  }
+  indentation[i] = '\0';
+
+  str_cpy(line, indentation);
+  free(indentation);
 }
 
 int
@@ -62,10 +76,9 @@ main(int argc, char **argv)
 
   char word[MAXWORD];
   char line[MAXLINE];
-  int word_length, line_length = 0;
-  str_cpy(line, "");
+  int word_length, line_length = args.first_line_indent;
+  prepend_first_line_indent(line, args.first_line_indent);
 
-  // TODO: input first line indent
   while (read_word(word, MAXWORD, input)) {
     word_length = str_len(word);
 

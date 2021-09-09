@@ -7,6 +7,7 @@ struct args_type {
   char input_filename[MAXFILENAME];
   char output_filename[MAXFILENAME];
   int width;
+  int first_line_indent;
 };
 
 struct args_type
