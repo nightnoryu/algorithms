@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <locale.h>
 
+#define MAXLINE 1000
+#define MAXWORD 100
+
 int
 str_len(char const *str);
 
@@ -27,8 +30,8 @@ reverse_find(char const *haystack, char const needle);
 int
 find_first_not_of(char const *haystack, char const needle, int pos);
 
-int
-occurs_in_str(char const *haystack, char const needle);
+void
+insert_in_str(char *dest, char const *str, int index);
 
 int
 read_line(char *line, int num, FILE *input);

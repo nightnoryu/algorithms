@@ -7,20 +7,6 @@
 #include "args.h"
 #include "utils.h"
 
-#define MAXLINE 1000
-#define MAXWORD 100
-
-void
-insert_in_str(char *dest, char const *str, int index)
-{
-  char tmp[MAXLINE];
-  str_ncpy(tmp, dest, index);
-  tmp[index] = '\0';
-  str_cat(tmp, str);
-  str_cat(tmp, dest + index);
-  str_cpy(dest, tmp);
-}
-
 void
 insert_spaces(char *line, int max_line)
 {

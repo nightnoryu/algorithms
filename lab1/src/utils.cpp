@@ -61,6 +61,17 @@ find_first_not_of(char const *haystack, char const needle, int pos)
   return -1;
 }
 
+void
+insert_in_str(char *dest, char const *str, int index)
+{
+  char tmp[MAXLINE];
+  str_ncpy(tmp, dest, index);
+  tmp[index] = '\0';
+  str_cat(tmp, str);
+  str_cat(tmp, dest + index);
+  str_cpy(dest, tmp);
+}
+
 int
 read_line(char *line, int num, FILE *input)
 {
