@@ -21,7 +21,7 @@ echo Test 2 passed
 rem Simple text with variable first line indent is processed correctly
 %SUBJECT% tests\lorem.txt "%TEMP%\output.txt" 70 4 > nul || goto error
 fc "%TEMP%\output.txt" tests\lorem4ind_output.txt > nul || goto error
-echo Test 2 passed
+echo Test 3 passed
 
 
 rem All tests have passed
