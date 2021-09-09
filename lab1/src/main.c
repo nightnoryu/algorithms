@@ -56,6 +56,8 @@ prepend_first_line_indent(char *line, int amount)
 int
 main(int argc, char **argv)
 {
+  setlocale(LC_ALL, "Russian");
+
   struct args_type args = input_args(argc, argv);
 
   FILE *input = fopen(args.input_filename, "r");
