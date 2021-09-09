@@ -42,7 +42,7 @@ insert_spaces(char *line, int max_line)
 void
 prepend_first_line_indent(char *line, int amount)
 {
-  char *indentation = malloc(amount);
+  char *indentation = (char *) malloc(amount);
   int i = 0;
   while (i < amount - 1) {
     indentation[i++] = ' ';
