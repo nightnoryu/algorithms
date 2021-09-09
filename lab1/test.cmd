@@ -23,6 +23,11 @@ rem Simple text with variable first line indent is processed correctly
 fc "%TEMP%\output.txt" tests\lorem4ind_output.txt > nul || goto error
 echo Test 3 passed
 
+rem Cyrillic text is processed correctly
+%SUBJECT% tests\cyrillic.txt "%TEMP%\output.txt" 70 2 > nul || goto error
+fc "%TEMP%\output.txt" tests\cyrillic_output.txt > nul || goto error
+echo Test 4 passed
+
 
 rem All tests have passed
 exit /b 0
