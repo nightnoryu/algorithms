@@ -78,9 +78,7 @@ main(int argc, char **argv)
   int word_length, line_length = args.first_line_indent;
   prepend_first_line_indent(line, args.first_line_indent);
 
-  while (read_word(word, MAXWORD, input)) {
-    word_length = str_len(word);
-
+  while ((word_length = read_word(word, MAXWORD, input)) > 0) {
     if ((line_length + word_length + 1) <= args.width) {
       if (line_length > 0) {
         str_cat(line, " ");
