@@ -46,13 +46,18 @@ main(int argc, char **argv)
 
   struct args_type args = input_args(argc, argv);
 
-  FILE *input = fopen(args.input_filename, "r");
+  if (args.width == -1 || args.first_line_indent == -1) {
+    std::cout << "Invalid input\n";
+    return EXIT_FAILURE;
+  }
+
+  FILE *input = fopen(args.input_filename.c_str(), "r");
   if (input == NULL) {
     perror("Error opening input file for reading");
     return EXIT_FAILURE;
   }
 
-  FILE *output = fopen(args.output_filename, "w");
+  FILE *output = fopen(args.output_filename.c_str(), "w");
   if (output == NULL) {
     perror("Error opening output file for reading");
     fclose(input);

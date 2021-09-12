@@ -6,8 +6,8 @@
 #define MAXFILENAME 256
 
 struct args_type {
-  char input_filename[MAXFILENAME];
-  char output_filename[MAXFILENAME];
+  std::string input_filename;
+  std::string output_filename;
   int width;
   int first_line_indent;
 };
