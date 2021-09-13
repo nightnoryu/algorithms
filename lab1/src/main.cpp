@@ -9,13 +9,16 @@
 
 void insert_spaces(std::string& line, size_t max_line)
 {
-  if (find(line, ' ', 0) == -1) {
+  if (find(line, ' ', 0) == std::string::npos) {
     return;
   }
-  int pos = find_first_not_of(line, ' ', 0);
-  while (line.length() < max_line) {
+
+  size_t pos = find_first_not_of(line, ' ', 0);
+
+  while (str_len(line) < max_line) {
     pos = find(line, ' ', pos);
-    if (pos != -1) {
+
+    if (pos != std::string::npos) {
       insert_in_str(line, " ", pos);
       pos = find_first_not_of(line, ' ', pos+1);
     } else {
@@ -24,7 +27,7 @@ void insert_spaces(std::string& line, size_t max_line)
   }
 }
 
-void prepend_first_line_indent(std::string& line, int amount)
+void prepend_first_line_indent(std::string& line, size_t amount)
 {
   std::string indentation(amount - 1, ' ');
   line = indentation + line;
@@ -35,8 +38,7 @@ int main(int argc, char **argv)
   std::setlocale(LC_ALL, "Russian");
 
   struct args_type args = input_args(argc, argv);
-
-  if (args.width == -1 || args.first_line_indent == -1) {
+  if (args.width == std::string::npos || args.first_line_indent == std::string::npos) {
     std::cerr << "Invalid input\n";
     std::exit(1);
   }
@@ -55,14 +57,14 @@ int main(int argc, char **argv)
 
   std::string word;
   std::string line;
-  int word_length, line_length = args.first_line_indent;
+  size_t word_length, line_length = args.first_line_indent;
   prepend_first_line_indent(line, args.first_line_indent);
 
   while (input >> word) {
     word_length = word.length();
     if ((line_length + word_length + 1) <= args.width) {
       if (line_length > 0) {
-        line += " ";
+        line += ' ';
         line_length += 1;
       }
       line += word;

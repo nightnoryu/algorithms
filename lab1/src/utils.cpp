@@ -1,37 +1,38 @@
 #include "utils.h"
 
-int str_len(char const *str)
+size_t str_len(const std::string& str)
 {
+  const char *c_str = str.c_str();
   int i;
-  for (i = 0; str[i] != '\0'; ++i)
+  for (i = 0; c_str[i] != '\0'; ++i)
     ;
   return i;
 }
 
-int find(const std::string& haystack, const char needle, size_t pos)
+size_t find(const std::string& haystack, const char needle, size_t pos)
 {
-  if (pos >= haystack.length()) {
-    return -1;
+  if (pos >= str_len(haystack)) {
+    return std::string::npos;
   }
-  for (size_t i = pos; i < haystack.length(); ++i) {
+  for (size_t i = pos; i < str_len(haystack); ++i) {
     if (haystack[i] == needle) {
       return i;
     }
   }
-  return -1;
+  return std::string::npos;
 }
 
-int find_first_not_of(const std::string& haystack, const char needle, size_t pos)
+size_t find_first_not_of(const std::string& haystack, const char needle, size_t pos)
 {
-  if (pos >= haystack.length()) {
-    return -1;
+  if (pos >= str_len(haystack)) {
+    return std::string::npos;
   }
-  for (int i = pos; haystack.length(); ++i) {
+  for (int i = pos; i < str_len(haystack); ++i) {
     if (haystack[i] != needle) {
       return i;
     }
   }
-  return -1;
+  return std::string::npos;
 }
 
 void insert_in_str(std::string& dest, const std::string& src, int index)

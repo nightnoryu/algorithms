@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -O0 -g
+CFLAGS=-O0 -g
 CFLAGS_FAST=-O2
 
 all: obj/main.o obj/args.o obj/utils.o bin_dir

@@ -1,15 +1,15 @@
 #include "args.h"
 
-int str_to_positive_int(const std::string& str)
+size_t str_to_positive_int(const std::string& str)
 {
-  int value;
+  size_t value;
   try {
     value = std::stoi(str);
   } catch (std::exception& e) {
-    value = -1;
+    value = std::string::npos;
   }
 
-  return value < 0 ? -1 : value;
+  return value < 0 ? std::string::npos : value;
 }
 
 struct args_type input_args(int argc, char **argv)
@@ -21,12 +21,12 @@ struct args_type input_args(int argc, char **argv)
     args.output_filename = std::string(argv[2]);
 
     args.width = str_to_positive_int(argv[3]);
-    if (args.width == -1) {
+    if (args.width == std::string::npos) {
       return args;
     }
 
     args.first_line_indent = str_to_positive_int(argv[4]);
-    if (args.first_line_indent == -1) {
+    if (args.first_line_indent == std::string::npos) {
       return args;
     }
   } else {
@@ -39,14 +39,14 @@ struct args_type input_args(int argc, char **argv)
     std::cout << "Enter text width: ";
     std::cin >> args.width;
     if (std::cin.fail()) {
-      args.width = -1;
+      args.width = std::string::npos;
       return args;
     }
 
     std::cout << "Enter first line indent: ";
     std::cin >> args.first_line_indent;
     if (std::cin.fail()) {
-      args.first_line_indent = -1;
+      args.first_line_indent = std::string::npos;
       return args;
     }
   }

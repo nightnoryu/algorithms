@@ -1,13 +1,14 @@
 #ifndef ARGS_H
 #define ARGS_H
 
-#include "utils.h"
+#include <iostream>
+#include <string>
 
 struct args_type {
   std::string input_filename;
   std::string output_filename;
-  int width;
-  int first_line_indent;
+  size_t width;
+  size_t first_line_indent;
 };
 
 struct args_type input_args(int argc, char **argv);
