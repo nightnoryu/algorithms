@@ -1,44 +1,15 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <fstream>
 #include <string>
-#include <stdio.h>
-#include <stdlib.h>
-#include <locale.h>
+#include <locale>
 
-#define MAXLINE 1000
-#define MAXWORD 100
+int find(const std::string& haystack, const char needle, size_t pos);
 
-int
-str_len(char const *str);
+int find_first_not_of(const std::string& haystack, const char needle, size_t pos);
 
-void
-str_cat(char *dest, char const *source);
-
-void
-str_cpy(char *dest, char const *source);
-
-void
-str_ncpy(char *dest, char const *source, int num);
-
-int
-find(char const *haystack, char const needle, int pos);
-
-int
-reverse_find(char const *haystack, char const needle);
-
-int
-find_first_not_of(char const *haystack, char const needle, int pos);
-
-void
-insert_in_str(char *dest, char const *str, int index);
-
-int
-read_line(char *line, int num, FILE *input);
-
-int
-read_word(char *word, int num, FILE *input);
+void insert_in_str(std::string& dest, const std::string& src, int index);
 
 #endif /* #ifndef UTILS_H */

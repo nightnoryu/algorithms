@@ -1,6 +1,7 @@
 #include "args.h"
 
-int str_to_positive_int(const std::string& str)
+int
+str_to_positive_int(const std::string& str)
 {
   int value;
   try {
@@ -12,7 +13,8 @@ int str_to_positive_int(const std::string& str)
   return value < 0 ? -1 : value;
 }
 
-struct args_type input_args(int argc, char **argv)
+struct args_type
+input_args(int argc, char **argv)
 {
   struct args_type args;
   if (argc == 5) {

@@ -1,7 +1,6 @@
 #include "utils.h"
 
-int
-str_len(char const *str)
+int str_len(char const *str)
 {
   int i;
   for (i = 0; str[i] != '\0'; ++i)
@@ -9,37 +8,12 @@ str_len(char const *str)
   return i;
 }
 
-void
-str_cat(char *dest, char const *source)
+int find(const std::string& haystack, const char needle, size_t pos)
 {
-  char *ptr = dest + str_len(dest);
-  while (*source != '\0') {
-    *ptr++ = *source++;
-  }
-  *ptr = '\0';
-}
-
-void
-str_cpy(char *dest, char const *source)
-{
-  for (int i = 0; (dest[i] = source[i]) != '\0'; ++i)
-    ;
-}
-
-void
-str_ncpy(char *dest, char const *source, int num)
-{
-  for (int i = 0; (dest[i] = source[i]) != '\0' && i < num; ++i)
-    ;
-}
-
-int
-find(char const *haystack, char const needle, int pos)
-{
-  if (pos >= str_len(haystack)) {
+  if (pos >= haystack.length()) {
     return -1;
   }
-  for (int i = pos; haystack[i] != '\0'; ++i) {
+  for (size_t i = pos; i < haystack.length(); ++i) {
     if (haystack[i] == needle) {
       return i;
     }
@@ -47,13 +21,12 @@ find(char const *haystack, char const needle, int pos)
   return -1;
 }
 
-int
-find_first_not_of(char const *haystack, char const needle, int pos)
+int find_first_not_of(const std::string& haystack, const char needle, size_t pos)
 {
-  if (pos >= str_len(haystack)) {
+  if (pos >= haystack.length()) {
     return -1;
   }
-  for (int i = pos; haystack[i] != '\0'; ++i) {
+  for (int i = pos; haystack.length(); ++i) {
     if (haystack[i] != needle) {
       return i;
     }
@@ -61,37 +34,10 @@ find_first_not_of(char const *haystack, char const needle, int pos)
   return -1;
 }
 
-void
-insert_in_str(char *dest, char const *str, int index)
+void insert_in_str(std::string& dest, const std::string& src, int index)
 {
-  char tmp[MAXLINE];
-  str_ncpy(tmp, dest, index);
-  tmp[index] = '\0';
-  str_cat(tmp, str);
-  str_cat(tmp, dest + index);
-  str_cpy(dest, tmp);
-}
-
-int
-read_line(char *line, int num, FILE *input)
-{
-  char c;
-  int i = 0;
-  while (i < num - 1 && (c = fgetc(input)) != EOF && c != '\n') {
-    line[i++] = c;
-  }
-  line[i] = '\0';
-  return i;
-}
-
-int
-read_word(char *word, int num, FILE *input)
-{
-  char c;
-  int i = 0;
-  while (i < num - 1 && (c = fgetc(input)) != EOF && c != ' ' && c != '\n') {
-    word[i++] = c;
-  }
-  word[i] = '\0';
-  return i;
+  std::string tmp = dest.substr(0, index);
+  tmp += src;
+  tmp += dest.substr(index);
+  dest = tmp;
 }

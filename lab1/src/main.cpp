@@ -7,14 +7,13 @@
 #include "args.h"
 #include "utils.h"
 
-void
-insert_spaces(char *line, int max_line)
+void insert_spaces(std::string& line, size_t max_line)
 {
   if (find(line, ' ', 0) == -1) {
     return;
   }
   int pos = find_first_not_of(line, ' ', 0);
-  while (str_len(line) < max_line) {
+  while (line.length() < max_line) {
     pos = find(line, ' ', pos);
     if (pos != -1) {
       insert_in_str(line, " ", pos);
@@ -25,74 +24,64 @@ insert_spaces(char *line, int max_line)
   }
 }
 
-void
-prepend_first_line_indent(char *line, int amount)
+void prepend_first_line_indent(std::string& line, int amount)
 {
-  char *indentation = (char *) malloc(amount);
-  int i = 0;
-  while (i < amount - 1) {
-    indentation[i++] = ' ';
-  }
-  indentation[i] = '\0';
-
-  str_cpy(line, indentation);
-  free(indentation);
+  std::string indentation(amount - 1, ' ');
+  line = indentation + line;
 }
 
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-  setlocale(LC_ALL, "Russian");
+  std::setlocale(LC_ALL, "Russian");
 
   struct args_type args = input_args(argc, argv);
 
   if (args.width == -1 || args.first_line_indent == -1) {
-    std::cout << "Invalid input\n";
-    return EXIT_FAILURE;
+    std::cerr << "Invalid input\n";
+    std::exit(1);
   }
 
-  FILE *input = fopen(args.input_filename.c_str(), "r");
-  if (input == NULL) {
-    perror("Error opening input file for reading");
-    return EXIT_FAILURE;
+  std::ifstream input(args.input_filename);
+  if (!input.is_open()) {
+    std::cerr << "Error opening file for reading\n";
+    std::exit(1);
   }
 
-  FILE *output = fopen(args.output_filename.c_str(), "w");
-  if (output == NULL) {
-    perror("Error opening output file for reading");
-    fclose(input);
-    return EXIT_FAILURE;
+  std::ofstream output(args.output_filename);
+  if (!output.is_open()) {
+    std::cerr << "Error opening file for writing\n";
+    std::exit(1);
   }
 
-  char word[MAXWORD];
-  char line[MAXLINE];
+  std::string word;
+  std::string line;
   int word_length, line_length = args.first_line_indent;
   prepend_first_line_indent(line, args.first_line_indent);
 
-  while ((word_length = read_word(word, MAXWORD, input)) > 0) {
+  while (input >> word) {
+    word_length = word.length();
     if ((line_length + word_length + 1) <= args.width) {
       if (line_length > 0) {
-        str_cat(line, " ");
+        line += " ";
         line_length += 1;
       }
-      str_cat(line, word);
+      line += word;
       line_length += word_length;
     } else {
-      if (line_length < args.width && !feof(input)) {
+      if (line_length < args.width && !input.eof()) {
         insert_spaces(line, args.width);
         line_length = args.width;
       }
-      fprintf(output, "%s\n", line);
-      str_cpy(line, word);
+      output << line << "\n";
+      line = word;
       line_length = word_length;
     }
   }
 
   if (line_length > 0) {
-    fprintf(output, "%s\n", line);
+    output << line << "\n";
   }
 
-  fclose(input);
-  fclose(output);
-  return EXIT_SUCCESS;
+  input.close();
+  output.close();
 }
