@@ -1,6 +1,6 @@
 #include "args.h"
 
-size_t str_to_positive_int(const std::string& str)
+size_t str_to_size(const std::string& str)
 {
   size_t value;
   try {
@@ -9,7 +9,18 @@ size_t str_to_positive_int(const std::string& str)
     value = std::string::npos;
   }
 
-  return value < 0 ? std::string::npos : value;
+  return value;
+}
+
+size_t read_size(std::istream& input)
+{
+  size_t value;
+  input >> value;
+  if (input.fail()) {
+    value = std::string::npos;
+  }
+
+  return value;
 }
 
 struct args_type input_args(int argc, char **argv)
@@ -20,12 +31,12 @@ struct args_type input_args(int argc, char **argv)
 
     args.output_filename = std::string(argv[2]);
 
-    args.width = str_to_positive_int(argv[3]);
+    args.width = str_to_size(argv[3]);
     if (args.width == std::string::npos) {
       return args;
     }
 
-    args.first_line_indent = str_to_positive_int(argv[4]);
+    args.first_line_indent = str_to_size(argv[4]);
     if (args.first_line_indent == std::string::npos) {
       return args;
     }
@@ -37,18 +48,10 @@ struct args_type input_args(int argc, char **argv)
     getline(std::cin, args.output_filename);
 
     std::cout << "Enter text width: ";
-    std::cin >> args.width;
-    if (std::cin.fail()) {
-      args.width = std::string::npos;
-      return args;
-    }
+    args.width = read_size(std::cin);
 
     std::cout << "Enter first line indent: ";
-    std::cin >> args.first_line_indent;
-    if (std::cin.fail()) {
-      args.first_line_indent = std::string::npos;
-      return args;
-    }
+    args.first_line_indent = read_size(std::cin);
   }
 
   return args;
