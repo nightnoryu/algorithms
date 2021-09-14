@@ -33,6 +33,17 @@ void prepend_first_line_indent(std::string& line, size_t amount)
   line = indentation + line;
 }
 
+bool consists_of_spaces(const std::string& str)
+{
+  const char *c_str = str.c_str();
+  for (int i = 0; c_str[i] != '\0'; ++i) {
+    if (c_str[i] != ' ') {
+      return false;
+    }
+  }
+  return true;
+}
+
 int main(int argc, char **argv)
 {
   std::setlocale(LC_ALL, "Russian");
@@ -74,7 +85,9 @@ int main(int argc, char **argv)
         insert_spaces(line, args.width);
         line_length = args.width;
       }
-      output << line << "\n";
+      if (!consists_of_spaces(line)) {
+        output << line << "\n";
+      }
       line = word;
       line_length = word_length;
     }
