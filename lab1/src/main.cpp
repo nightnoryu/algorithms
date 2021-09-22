@@ -1,7 +1,22 @@
 /*
  * lab1
- * justificatice (justification + justice)
- * Выравнивание текста по ширине
+ *
+ * Текст задания:
+ *   22. В  текстовом  файле записан отдельный абзац.  Переносов
+ * слов нет.  Выровнять строки абзаца по ширине.  Иными  словами,
+ * правые границы строк выравниваются по заданной позиции за счет
+ * вставки дополнительных пробелов между словами.  Первая  строка
+ * абзаца должна иметь заданный отступ, а остальные строки должны
+ * начинаться  с  первой  позиции.  Последняя  строка  абзаца  по
+ * правому  краю  не  выравнивается.  Число  строк  в  исходном и
+ * конечном файлах может отличаться (8).
+ *
+ * Выполнил:
+ * Хафизов Булат, ПС-21
+ *
+ * Среда выполнения: make, g++
+ * Сборка проекта: в корневой директории выполнить команду make.
+ * Убедиться, что присутствует компилятор g++.
  */
 
 #include "args.h"
@@ -73,7 +88,7 @@ int main(int argc, char **argv)
 
   while (input >> word) {
     word_length = word.length();
-    if ((line_length + word_length + 1) <= args.width) {
+    if ((line_length + word_length) <= args.width) {
       if (line_length > 0) {
         line += ' ';
         line_length += 1;
@@ -81,7 +96,7 @@ int main(int argc, char **argv)
       line += word;
       line_length += word_length;
     } else {
-      if (line_length < args.width && !input.eof()) {
+      if (line_length <= args.width && !input.eof()) {
         insert_spaces(line, args.width);
         line_length = args.width;
       }
