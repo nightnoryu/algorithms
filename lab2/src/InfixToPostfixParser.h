@@ -7,12 +7,13 @@
 #include <string>
 
 enum class Token {
-  NUMBER, END, IDLE,
-  PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^',
+  IDLE, END,
+  NUMBER,
+  POW = '^',
+  MUL = '*', DIV = '/',
+  PLUS = '+', MINUS = '-',
   LP = '(', RP = ')',
 };
-
-bool operator>(const Token t1, const Token t2);
 
 
 class InfixToPostfixParser

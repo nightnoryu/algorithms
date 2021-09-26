@@ -1,8 +1,7 @@
 #include "InfixToPostfixParser.h"
 
-bool operator>(const Token t1, const Token t2)
-{
-  if (t1 == Token::POW) {
+bool hasHigherPrecedence(const Token t1, const Token t2) {
+  if (t1 == Token::POW && t2 != Token::POW) {
     return true;
   }
 
@@ -15,11 +14,35 @@ bool operator>(const Token t1, const Token t2)
   return false;
 }
 
+bool hasEqualPrecedence(const Token t1, const Token t2)
+{
+  if (t1 == t2) {
+    return true;
+  }
+
+  if (t1 == Token::PLUS && t2 == Token::MINUS || t1 == Token::MINUS && t2 == Token::PLUS) {
+    return true;
+  }
+
+  if (t1 == Token::MUL && t2 == Token::DIV || t1 == Token::DIV && t2 == Token::MUL) {
+    return true;
+  }
+
+  return false;
+}
+
+bool isLeftAssociative(const Token t)
+{
+  return t != Token::POW;
+}
+
+
 InfixToPostfixParser::InfixToPostfixParser(ParseLogger& logger)
   : m_operators(Stack<Token>(256)), m_currentNumber(-1), m_logger(logger) {}
 
 std::string InfixToPostfixParser::parseFromStream(std::istream& input)
 {
+  m_operators.flush();
   std::string result;
   Token token = Token::IDLE;
 
@@ -87,7 +110,15 @@ Token InfixToPostfixParser::getToken(std::istream& input)
     case ')':
       return Token::RP;
 
-    case '+': case '-': case '*': case '/': case '^':
+    case '+': case '*': case '/': case '^':
+      return Token(ch);
+
+    case '-':
+      if (std::isdigit(input.peek())) {
+        input.putback(ch);
+        input >> m_currentNumber;
+        return Token::NUMBER;
+      }
       return Token(ch);
 
     default:
@@ -97,15 +128,24 @@ Token InfixToPostfixParser::getToken(std::istream& input)
 
 std::string InfixToPostfixParser::dumpOperatorsWithHigherOrEqualPrecedence(Token op)
 {
+  if (m_operators.isEmpty()) {
+    return "";
+  }
+
   std::string result;
   Token token = m_operators.peek();
 
-  while (!m_operators.isEmpty() && token != Token::LP && (token > op)) {
+  while (!m_operators.isEmpty()
+      && token != Token::LP
+      && (hasHigherPrecedence(token, op)
+          || (hasEqualPrecedence(token, op) && isLeftAssociative(token)))) {
     result += static_cast<char>(token);
     result += ' ';
 
     m_operators.pop();
-    token = m_operators.peek();
+    if (!m_operators.isEmpty()) {
+      token = m_operators.peek();
+    }
   }
 
   return result;
