@@ -1,4 +1,5 @@
 #include "ParseLogger.h"
+#include <iostream>
 
 ParseLogger::ParseLogger(size_t size)
   : m_tokens(new std::string[size]), m_expressions(new std::string[size]),
@@ -29,8 +30,8 @@ void ParseLogger::dumpLogToStream(std::ostream& output)
     longestToken = 5;
   }
   size_t longestExpression = findLongestString(m_expressions);
-  if (longestExpression < 11) {
-    longestExpression = 11;
+  if (longestExpression < 10) {
+    longestExpression = 10;
   }
   size_t longestStackDump = findLongestString(m_stackDumps);
   if (longestStackDump < 7) {
@@ -41,7 +42,7 @@ void ParseLogger::dumpLogToStream(std::ostream& output)
 
   for (size_t i = 0; i < m_top; ++i) {
     output << std::right << std::setw(longestToken) << m_tokens[i] << " | "
-           << std::left << std::setw(longestExpression) << m_expressions[i] << "| "
+           << std::left << std::setw(longestExpression) << m_expressions[i] << " | "
            << std::left << std::setw(longestStackDump) << m_stackDumps[i] << std::endl;
   }
 }
@@ -49,8 +50,8 @@ void ParseLogger::dumpLogToStream(std::ostream& output)
 void ParseLogger::printHeader(std::ostream& output, size_t first, size_t second, size_t third)
 {
   output << std::right << std::setw(first) << "Token"
-         << std::left << std::setw(second) << " | Expression"
-         << std::left << std::setw(third + 2) << " | Stack"
+         << std::left << std::setw(second + 3) << " | Expression"
+         << std::left << std::setw(third) << " | Stack"
          << std::endl;
 }
 

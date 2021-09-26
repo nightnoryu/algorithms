@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     output << "RPN:   " << rpn << std::endl;
 
     double result = calculator.calculate(rpn);
-    output << "\nRESULT\n" << std::setprecision(3) << result << std::endl;
+    output << "\nRESULT: " << std::setprecision(3) << result << std::endl;
 
   } catch (std::exception& e) {
     output << "\nERROR: " << e.what() << std::endl;
