@@ -37,6 +37,9 @@ public:
 
   T peek() const
   {
+    if (isEmpty()) {
+      throw std::out_of_range("stack underflow");
+    }
     return m_data[m_top];
   }
 
@@ -48,6 +51,11 @@ public:
   T *data() const
   {
     return m_data;
+  }
+
+  void flush()
+  {
+    m_top = -1;
   }
 
   bool isFull() const
