@@ -11,6 +11,9 @@ enum class Token {
   LP = '(', RP = ')',
 };
 
+bool operator>(const Token t1, const Token t2);
+
+
 class InfixToPostfixParser
 {
 public:
@@ -19,11 +22,16 @@ public:
   std::string parseFromStream(std::istream& input);
 
 private:
-  Stack<Token> m_operations;
-  std::string m_expression;
-  int m_currentNumber;
-
   Token getToken(std::istream& input);
+
+  std::string dumpOperatorsWithHigherOrEqualPrecedence(Token op);
+
+  std::string dumpOperatorsUntilLeftParenthesis();
+
+  std::string dumpLeftoverOperators();
+
+  Stack<Token> m_operators;
+  int m_currentNumber;
 };
 
 #endif /* #ifndef INFIXTOPOSTFIXPARSER_H */

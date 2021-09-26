@@ -25,7 +25,7 @@ int main(int argc, char **argv)
   InfixToPostfixParser parser;
   try {
     std::cout << parser.parseFromStream(std::cin) << std::endl;
-  } catch (std::logic_error& e) {
+  } catch (std::exception& e) {
     std::cout << "error: " << e.what() << std::endl;
   }
 }
