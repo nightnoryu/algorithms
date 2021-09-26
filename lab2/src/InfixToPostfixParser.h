@@ -4,6 +4,7 @@
 #include "stack.hpp"
 #include "ParseLogger.h"
 #include <iostream>
+#include <sstream>
 #include <string>
 
 enum class Token {
@@ -20,6 +21,8 @@ class InfixToPostfixParser
 {
 public:
   InfixToPostfixParser(ParseLogger& logger);
+
+  std::string parseFromString(const std::string& input);
 
   std::string parseFromStream(std::istream& input);
 
