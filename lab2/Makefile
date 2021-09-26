@@ -2,11 +2,14 @@ CC=g++
 CFLAGS=-O0 -g
 CFLAGS_FAST=-O2
 
-all: obj/main.o bin_dir
-	$(CC) $(CFLAGS) obj/main.o -o bin/dijkstracalc.exe
+all: obj/main.o obj/InfixToPostfixParser.o bin_dir
+	$(CC) $(CFLAGS) obj/main.o obj/InfixToPostfixParser.o -o bin/dijkstracalc.exe
 
 obj/main.o: src/main.cpp obj_dir
 	$(CC) $(CFLAGS) -c src/main.cpp -o $@
+
+obj/InfixToPostfixParser.o: src/InfixToPostfixParser.cpp obj_dir
+	$(CC) $(CFLAGS) -c src/InfixToPostfixParser.cpp -o $@
 
 obj_dir:
 	mkdir -p obj

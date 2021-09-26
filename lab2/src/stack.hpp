@@ -35,6 +35,11 @@ public:
     return m_data[m_top--];
   }
 
+  T peek()
+  {
+    return m_data[m_top];
+  }
+
   bool isFull()
   {
     return m_top == m_capacity - 1;

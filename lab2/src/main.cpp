@@ -18,12 +18,14 @@
  * Убедиться, что присутствует компилятор g++.
  */
 
-#include <iostream>
-#include "stack.hpp"
+#include "InfixToPostfixParser.h"
 
 int main(int argc, char **argv)
 {
-  Stack<int> test(256);
-  test.push(2);
-  std::cout << test.pop() << std::endl;
+  InfixToPostfixParser parser;
+  try {
+    std::cout << parser.parseFromStream(std::cin) << std::endl;
+  } catch (std::logic_error& e) {
+    std::cout << "error: " << e.what() << std::endl;
+  }
 }
