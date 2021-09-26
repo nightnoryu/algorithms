@@ -35,17 +35,27 @@ public:
     return m_data[m_top--];
   }
 
-  T peek()
+  T peek() const
   {
     return m_data[m_top];
   }
 
-  bool isFull()
+  size_t size() const
+  {
+    return m_top + 1;
+  }
+
+  T *data() const
+  {
+    return m_data;
+  }
+
+  bool isFull() const
   {
     return m_top == m_capacity - 1;
   }
 
-  bool isEmpty()
+  bool isEmpty() const
   {
     return m_top == -1;
   }

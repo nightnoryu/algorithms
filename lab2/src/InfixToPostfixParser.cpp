@@ -15,8 +15,8 @@ bool operator>(const Token t1, const Token t2)
   return false;
 }
 
-InfixToPostfixParser::InfixToPostfixParser()
-  : m_operators(Stack<Token>(256)), m_currentNumber(-1) {}
+InfixToPostfixParser::InfixToPostfixParser(ParseLogger& logger)
+  : m_operators(Stack<Token>(256)), m_currentNumber(-1), m_logger(logger) {}
 
 std::string InfixToPostfixParser::parseFromStream(std::istream& input)
 {
@@ -49,9 +49,14 @@ std::string InfixToPostfixParser::parseFromStream(std::istream& input)
       default:
         break;
       }
+
+    if (token != Token::END) {
+      appendToLog(token, result);
+    }
   }
 
   result += dumpLeftoverOperators();
+  appendToLog(token, result);
 
   return result;
 }
@@ -70,8 +75,8 @@ Token InfixToPostfixParser::getToken(std::istream& input)
     case 0: case '\n':
       return Token::END;
 
-    case '0':case '1':case '2':case '3':case '4':
-    case '5':case '6':case '7':case '8':case '9':
+    case '0': case '1': case '2': case '3': case '4':
+    case '5': case '6': case '7': case '8': case '9':
       input.putback(ch);
       input >> m_currentNumber;
       return Token::NUMBER;
@@ -146,4 +151,41 @@ std::string InfixToPostfixParser::dumpLeftoverOperators()
   }
 
   return result;
+}
+
+void InfixToPostfixParser::appendToLog(const Token token, const std::string expression)
+{
+  std::string stackDump;
+  Token const * const stack = m_operators.data();
+  size_t size = m_operators.size();
+
+  for (size_t i = 0; i < size; ++i) {
+    stackDump += static_cast<char>(stack[i]);
+    if (i + 1 != size) {
+      stackDump += ' ';
+    }
+  }
+
+  m_logger.addEntry(tokenString(token), expression, stackDump);
+}
+
+std::string InfixToPostfixParser::tokenString(const Token token)
+{
+  switch (token) {
+  case Token::NUMBER:
+    return std::to_string(m_currentNumber);
+
+  case Token::END:
+    return "END";
+
+  case Token::PLUS: case Token::MINUS:
+  case Token::MUL: case Token::DIV: case Token::POW:
+  case Token::LP: case Token::RP:
+    return std::string(1, static_cast<char>(token));
+
+  default:
+    break;
+  }
+
+  return "";
 }

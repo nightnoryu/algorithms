@@ -2,6 +2,7 @@
 #define INFIXTOPOSTFIXPARSER_H
 
 #include "stack.hpp"
+#include "ParseLogger.h"
 #include <iostream>
 #include <string>
 
@@ -17,7 +18,7 @@ bool operator>(const Token t1, const Token t2);
 class InfixToPostfixParser
 {
 public:
-  InfixToPostfixParser();
+  InfixToPostfixParser(ParseLogger& logger);
 
   std::string parseFromStream(std::istream& input);
 
@@ -30,8 +31,13 @@ private:
 
   std::string dumpLeftoverOperators();
 
+  void appendToLog(const Token token, const std::string expression);
+
+  std::string tokenString(const Token token);
+
   Stack<Token> m_operators;
   int m_currentNumber;
+  ParseLogger& m_logger;
 };
 
 #endif /* #ifndef INFIXTOPOSTFIXPARSER_H */

@@ -19,13 +19,22 @@
  */
 
 #include "InfixToPostfixParser.h"
+#include "ParseLogger.h"
 
 int main(int argc, char **argv)
 {
-  InfixToPostfixParser parser;
+  ParseLogger logger(256);
+  InfixToPostfixParser parser(logger);
+
   try {
-    std::cout << parser.parseFromStream(std::cin) << std::endl;
+
+    std::string expression = parser.parseFromStream(std::cin);
+    logger.dumpLogToStream(std::cout);
+    std::cout << std::endl;
+    std::cout << "RESULT:" << std::endl << expression << std::endl;
+
   } catch (std::exception& e) {
     std::cout << "error: " << e.what() << std::endl;
+    std::exit(1);
   }
 }
