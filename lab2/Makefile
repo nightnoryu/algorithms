@@ -1,4 +1,4 @@
-CC=clang++
+CC=g++
 CFLAGS=-O0 -g
 CFLAGS_FAST=-O2
 
