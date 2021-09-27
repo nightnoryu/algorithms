@@ -37,8 +37,8 @@ bool isLeftAssociative(const Token t)
 }
 
 
-InfixToPostfixParser::InfixToPostfixParser(ParseLogger& logger)
-  : m_operators(Stack<Token>(256)), m_currentNumber(-1), m_logger(logger) {}
+InfixToPostfixParser::InfixToPostfixParser(size_t stackSize, ParseLogger& logger)
+  : m_operators(Stack<Token>(stackSize)), m_currentNumber(0), m_logger(logger) {}
 
 std::string InfixToPostfixParser::parseFromString(const std::string& input)
 {

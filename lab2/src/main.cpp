@@ -30,9 +30,8 @@ std::string readInitialExpression(std::istream& input)
   return result;
 }
 
-int main(int argc, char **argv)
+void getInput(std::ifstream& input, int argc, char **argv)
 {
-  std::ifstream input;
   if (argc > 1) {
     input.open(argv[1]);
     if (!input.is_open()) {
@@ -44,8 +43,10 @@ int main(int argc, char **argv)
     input.clear(std::cin.rdstate());
     input.basic_ios<char>::rdbuf(std::cin.rdbuf());
   }
+}
 
-  std::ofstream output;
+void getOutput(std::ofstream& output, int argc, char **argv)
+{
   if (argc > 2) {
     output.open(argv[2]);
     if (!output.is_open()) {
@@ -57,9 +58,20 @@ int main(int argc, char **argv)
     output.clear(std::cout.rdstate());
     output.basic_ios<char>::rdbuf(std::cout.rdbuf());
   }
+}
 
-  ParseLogger logger(256);
-  InfixToPostfixParser parser(logger);
+int main(int argc, char **argv)
+{
+  const size_t stackSize = 256;
+
+  std::ifstream input;
+  getInput(input, argc, argv);
+
+  std::ofstream output;
+  getOutput(output, argc, argv);
+
+  ParseLogger logger(stackSize);
+  InfixToPostfixParser parser(stackSize, logger);
   PostfixCalculator calculator;
 
   try {

@@ -20,7 +20,7 @@ enum class Token {
 class InfixToPostfixParser
 {
 public:
-  InfixToPostfixParser(ParseLogger& logger);
+  InfixToPostfixParser(size_t stackSize, ParseLogger& logger);
 
   std::string parseFromString(const std::string& input);
 
