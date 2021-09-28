@@ -83,12 +83,15 @@ int main(int argc, char **argv)
 
   std::string word;
   std::string line;
-  size_t word_length, line_length = args.first_line_indent;
+  size_t word_length, line_length = 0;
+  if (args.first_line_indent > 0) {
+    line_length = args.first_line_indent - 1;
+  }
   prepend_first_line_indent(line, args.first_line_indent);
 
   while (input >> word) {
     word_length = word.length();
-    if ((line_length + word_length) <= args.width) {
+    if ((line_length + word_length + 1) <= args.width) {
       if (line_length > 0) {
         line += ' ';
         line_length += 1;
@@ -98,7 +101,6 @@ int main(int argc, char **argv)
     } else {
       if (line_length <= args.width && !input.eof()) {
         insert_spaces(line, args.width);
-        line_length = args.width;
       }
       if (!consists_of_spaces(line)) {
         output << line << "\n";
