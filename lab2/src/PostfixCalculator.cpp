@@ -51,6 +51,10 @@ double PostfixCalculator::calculate(const std::string& expression)
         m_stack.push(std::pow(m_stack.pop(), operand));
         break;
 
+      case '~':
+        m_stack.push(-m_stack.pop());
+        break;
+
       default:
         break;
     }

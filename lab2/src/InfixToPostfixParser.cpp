@@ -5,6 +5,10 @@ bool hasHigherPrecedence(const Token t1, const Token t2) {
     return true;
   }
 
+  if (t1 == Token::UMINUS && t2 != Token::UMINUS) {
+    return true;
+  }
+
   if (t1 == Token::MUL || t1 == Token::DIV) {
     if (t2 == Token::PLUS || t2 == Token::MINUS) {
       return true;
@@ -33,7 +37,7 @@ bool hasEqualPrecedence(const Token t1, const Token t2)
 
 bool isLeftAssociative(const Token t)
 {
-  return t != Token::POW;
+  return t != Token::POW && t != Token::UMINUS;
 }
 
 
@@ -63,6 +67,7 @@ std::string InfixToPostfixParser::parseFromStream(std::istream& input)
 
       case Token::PLUS: case Token::MINUS:
       case Token::MUL: case Token::DIV: case Token::POW:
+      case Token::UMINUS:
         result += dumpOperatorsWithHigherOrEqualPrecedence(token);
         m_operators.push(token);
         break;
@@ -124,6 +129,8 @@ Token InfixToPostfixParser::getToken(std::istream& input)
         input.putback(ch);
         input >> m_currentNumber;
         return Token::NUMBER;
+      } else if (input.peek() == static_cast<char>(Token::LP)) {
+        return Token::UMINUS;
       }
       return Token(ch);
 
@@ -226,6 +233,7 @@ std::string InfixToPostfixParser::tokenString(const Token token)
 
   case Token::PLUS: case Token::MINUS:
   case Token::MUL: case Token::DIV: case Token::POW:
+  case Token::UMINUS:
   case Token::LP: case Token::RP:
     return std::string(1, static_cast<char>(token));
 
