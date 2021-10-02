@@ -1,9 +1,7 @@
 #ifndef INFIXTOPOSTFIXPARSER_H
 #define INFIXTOPOSTFIXPARSER_H
 
-#include <iostream>
-#include <sstream>
-#include <string>
+#include "common_inc.h"
 #include "stack.hpp"
 
 enum class Token {

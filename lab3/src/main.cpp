@@ -19,10 +19,7 @@
  * Убедиться, что присутствует cmake, MinGW, MSYS и компилятор g++.
  */
 
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <string>
+#include "common_inc.h"
 #include "InfixToPostfixParser.h"
 
 std::string readInitialExpression(std::istream& input)

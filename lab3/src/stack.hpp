@@ -1,7 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <stdexcept>
+#include "common_inc.h"
 
 template<typename T>
 class Stack
