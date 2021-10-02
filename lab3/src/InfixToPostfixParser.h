@@ -2,18 +2,8 @@
 #define INFIXTOPOSTFIXPARSER_H
 
 #include "common_inc.h"
+#include "Token.h"
 #include "stack.hpp"
-
-enum class Token {
-  IDLE, END,
-  NUMBER,
-  POW = '^',
-  UMINUS = '~',
-  MUL = '*', DIV = '/',
-  PLUS = '+', MINUS = '-',
-  LP = '(', RP = ')',
-};
-
 
 class InfixToPostfixParser
 {
