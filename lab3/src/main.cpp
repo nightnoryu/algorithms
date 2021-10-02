@@ -22,6 +22,7 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+#include "InfixToPostfixParser.h"
 
 std::string readInitialExpression(std::istream& input)
 {
@@ -62,16 +63,25 @@ void getOutput(std::ofstream& output, int argc, char **argv)
 
 int main(int argc, char **argv)
 {
+  const size_t stackSize = 256;
+
   std::ifstream input;
   getInput(input, argc, argv);
 
   std::ofstream output;
   getOutput(output, argc, argv);
 
+  InfixToPostfixParser parser(stackSize);
+  // ExpressionTreeBuilder treeBuilder(stackSize);
+
   try {
 
     std::string infix = readInitialExpression(input);
-    output << infix << std::endl;
+    std::string postfix = parser.parseFromString(infix);
+
+    output << "EXPRESSION: " << infix << std::endl;
+    output << "BINARY EXPRESSION TREE:" << std::endl;
+    // treeBuilder.buildTree(output, postfix);
 
   } catch (std::exception& e) {
     output << "\nERROR: " << e.what() << std::endl;
