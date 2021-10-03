@@ -27,70 +27,80 @@
 
 std::string readInitialExpression(std::istream& input)
 {
-  std::string result;
-  std::getline(input, result);
-  input.seekg(0, std::ios_base::beg);
-  return result;
+    std::string result;
+    std::getline(input, result);
+    input.seekg(0, std::ios_base::beg);
+    return result;
 }
 
-void getInput(std::ifstream& input, int argc, char **argv)
+void getInput(std::ifstream& input, int argc, char** argv)
 {
-  if (argc > 1) {
-    input.open(argv[1]);
-    if (!input.is_open()) {
-      std::cerr << "ERROR: failed to open input file" << std::endl;
-      std::exit(1);
+    if (argc > 1)
+    {
+        input.open(argv[1]);
+        if (!input.is_open())
+        {
+            std::cerr << "ERROR: failed to open input file" << std::endl;
+            std::exit(1);
+        }
     }
-  } else {
-    input.copyfmt(std::cin);
-    input.clear(std::cin.rdstate());
-    input.basic_ios<char>::rdbuf(std::cin.rdbuf());
-  }
-}
-
-void getOutput(std::ofstream& output, int argc, char **argv)
-{
-  if (argc > 2) {
-    output.open(argv[2]);
-    if (!output.is_open()) {
-      std::cerr << "ERROR: failed to open output file" << std::endl;
-      std::exit(1);
+    else
+    {
+        input.copyfmt(std::cin);
+        input.clear(std::cin.rdstate());
+        input.basic_ios<char>::rdbuf(std::cin.rdbuf());
     }
-  } else {
-    output.copyfmt(std::cout);
-    output.clear(std::cout.rdstate());
-    output.basic_ios<char>::rdbuf(std::cout.rdbuf());
-  }
 }
 
-int main(int argc, char **argv)
+void getOutput(std::ofstream& output, int argc, char** argv)
 {
-  const size_t stackSize = 256;
+    if (argc > 2)
+    {
+        output.open(argv[2]);
+        if (!output.is_open())
+        {
+            std::cerr << "ERROR: failed to open output file" << std::endl;
+            std::exit(1);
+        }
+    }
+    else
+    {
+        output.copyfmt(std::cout);
+        output.clear(std::cout.rdstate());
+        output.basic_ios<char>::rdbuf(std::cout.rdbuf());
+    }
+}
 
-  std::ifstream input;
-  getInput(input, argc, argv);
+int main(int argc, char** argv)
+{
+    const size_t stackSize = 256;
 
-  std::ofstream output;
-  getOutput(output, argc, argv);
+    std::ifstream input;
+    getInput(input, argc, argv);
 
-  ParseLogger logger(stackSize);
-  InfixToPostfixParser parser(stackSize, logger);
-  PostfixCalculator calculator;
+    std::ofstream output;
+    getOutput(output, argc, argv);
 
-  try {
+    ParseLogger logger(stackSize);
+    InfixToPostfixParser parser(stackSize, logger);
+    PostfixCalculator calculator;
 
-    std::string infix = readInitialExpression(input);
-    std::string rpn = parser.parseFromString(infix);
+    try
+    {
 
-    logger.dumpLogToStream(output);
-    output << "\nINFIX: " << infix << std::endl;
-    output << "RPN:   " << rpn << std::endl;
+        std::string infix = readInitialExpression(input);
+        std::string rpn = parser.parseFromString(infix);
 
-    double result = calculator.calculate(rpn);
-    output << "\nRESULT: " << std::setprecision(3) << result << std::endl;
+        logger.dumpLogToStream(output);
+        output << "\nINFIX: " << infix << std::endl;
+        output << "RPN:   " << rpn << std::endl;
 
-  } catch (std::exception& e) {
-    output << "\nERROR: " << e.what() << std::endl;
-    std::exit(1);
-  }
+        double result = calculator.calculate(rpn);
+        output << "\nRESULT: " << std::setprecision(3) << result << std::endl;
+    }
+    catch (std::exception& e)
+    {
+        output << "\nERROR: " << e.what() << std::endl;
+        std::exit(1);
+    }
 }

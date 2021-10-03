@@ -1,10 +1,10 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <iostream>
 #include <fstream>
-#include <string>
+#include <iostream>
 #include <locale>
+#include <string>
 
 size_t str_len(const std::string& str);
 

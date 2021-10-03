@@ -2,19 +2,19 @@
 #define POSTFIXCALCULATOR_H
 
 #include "stack.hpp"
-#include <string>
-#include <sstream>
 #include <cmath>
+#include <sstream>
+#include <string>
 
 class PostfixCalculator
 {
 public:
-  PostfixCalculator();
+    PostfixCalculator();
 
-  double calculate(const std::string& expression);
+    double calculate(const std::string& expression);
 
 private:
-  Stack<double> m_stack;
+    Stack<double> m_stack;
 };
 
 #endif /* #ifndef POSTFIXCALCULATOR_H */
