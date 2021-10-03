@@ -33,7 +33,7 @@ echo Test 4 passed
 echo.
 
 rem Heavy text is processed correctly
-powershell (Measure-Command { %SUBJECT% tests\heavy.txt "%TEMP%\output.txt" 70 2 }).ToString() || goto error
+powershell (Measure-Command { ".\\%SUBJECT%" tests\heavy.txt "%TEMP%\output.txt" 70 2 }).ToString() || goto error
 fc "%TEMP%\output.txt" tests\heavy_output.txt > nul || goto error
 echo Test 5 passed
 echo.
