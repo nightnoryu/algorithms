@@ -1,5 +1,4 @@
-#ifndef INFIXTOPOSTFIXPARSER_H
-#define INFIXTOPOSTFIXPARSER_H
+#pragma once
 
 #include "Token.h"
 #include "common_inc.h"
@@ -28,5 +27,3 @@ private:
     Stack<Token> m_operators;
     int m_currentNumber;
 };
-
-#endif /* #ifndef INFIXTOPOSTFIXPARSER_H */

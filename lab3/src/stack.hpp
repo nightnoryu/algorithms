@@ -1,5 +1,4 @@
-#ifndef STACK_H
-#define STACK_H
+#pragma once
 
 #include "common_inc.h"
 
@@ -76,5 +75,3 @@ private:
     int m_top;
     size_t m_capacity;
 };
-
-#endif /* #ifndef STACK_H */

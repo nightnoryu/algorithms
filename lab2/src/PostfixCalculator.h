@@ -1,5 +1,4 @@
-#ifndef POSTFIXCALCULATOR_H
-#define POSTFIXCALCULATOR_H
+#pragma once
 
 #include "stack.hpp"
 #include <cmath>
@@ -16,5 +15,3 @@ public:
 private:
     Stack<double> m_stack;
 };
-
-#endif /* #ifndef POSTFIXCALCULATOR_H */

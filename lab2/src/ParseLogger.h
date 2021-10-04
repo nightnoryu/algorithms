@@ -1,5 +1,4 @@
-#ifndef PARSELOGGER_H
-#define PARSELOGGER_H
+#pragma once
 
 #include <fstream>
 #include <iomanip>
@@ -27,5 +26,3 @@ private:
     size_t m_size;
     size_t m_top;
 };
-
-#endif /* #ifndef PARSELOGGER_H */

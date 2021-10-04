@@ -1,5 +1,4 @@
-#ifndef TOKEN_H
-#define TOKEN_H
+#pragma once
 
 enum class Token
 {
@@ -15,5 +14,3 @@ enum class Token
     LP = '(',
     RP = ')',
 };
-
-#endif /* #ifndef TOKEN_H */

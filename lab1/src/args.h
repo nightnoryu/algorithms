@@ -1,5 +1,4 @@
-#ifndef ARGS_H
-#define ARGS_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -13,5 +12,3 @@ struct args_type
 };
 
 struct args_type input_args(int argc, char** argv);
-
-#endif /* #ifndef ARGS_H */

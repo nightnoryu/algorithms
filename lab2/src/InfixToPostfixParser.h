@@ -1,5 +1,4 @@
-#ifndef INFIXTOPOSTFIXPARSER_H
-#define INFIXTOPOSTFIXPARSER_H
+#pragma once
 
 #include "ParseLogger.h"
 #include "stack.hpp"
@@ -48,5 +47,3 @@ private:
     int m_currentNumber;
     ParseLogger& m_logger;
 };
-
-#endif /* #ifndef INFIXTOPOSTFIXPARSER_H */
