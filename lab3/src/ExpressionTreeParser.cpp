@@ -1,13 +1,43 @@
 ﻿#include "ExpressionTreeParser.h"
 
-void printTree(std::ostream& output, Node*& ptr)
+void traverseNodes(std::ostream& output, const std::string& padding, const std::string& pointer, Node*& ptr, bool hasRightSibling)
 {
     if (ptr != nullptr)
     {
-        printTree(output, ptr->left);
-        output << tokenToString(ptr->token, ptr->number);
-        printTree(output, ptr->right);
+        output << std::endl << padding << pointer << tokenToString(ptr->token, ptr->number);
+
+        std::string newPadding = padding;
+        if (hasRightSibling)
+        {
+            newPadding += "│  ";
+        }
+        else
+        {
+            newPadding += "   ";
+        }
+
+        std::string pointerRight = "└──";
+        std::string pointerLeft = ptr->right != nullptr ? "├──" : "└──";
+
+        traverseNodes(output, newPadding, pointerLeft, ptr->left, ptr->right != nullptr);
+        traverseNodes(output, newPadding, pointerRight, ptr->right, false);
     }
+}
+
+void printTree(std::ostream& output, Node*& ptr)
+{
+    if (ptr == nullptr)
+    {
+        return;
+    }
+
+    output << tokenToString(ptr->token, ptr->number);
+
+    std::string pointerRight = "└──";
+    std::string pointerLeft = ptr->right != nullptr ? "├──" : "└──";
+
+    traverseNodes(output, "", pointerLeft, ptr->left, ptr->right != nullptr);
+    traverseNodes(output, "", pointerRight, ptr->right, false);
 }
 
 void freeTree(Node*& ptr)

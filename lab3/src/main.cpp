@@ -84,14 +84,16 @@ int main(int argc, char** argv)
     try
     {
         std::string infix = readInitialExpression(input);
-        output << "EXPRESSION: " << infix << std::endl;
+        output << "\nEXPRESSION: " << infix << "\n\n";
 
         std::string postfix = parser.parseFromString(infix);
-        output << "RPN:        " << postfix << std::endl;
+        output << "RPN:        " << postfix << "\n\n";
 
-        output << "BINARY EXPRESSION TREE:" << std::endl;
+        output << "BINARY EXPRESSION TREE:\n";
         Node* root = treeParser.parseFromString(postfix);
         printTree(output, root);
+        std::cout << std::endl;
+
         freeTree(root);
     }
     catch (std::exception& e)
