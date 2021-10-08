@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Token.h"
+#include "common_inc.h"
 #include "stack.hpp"
 
 struct Node
@@ -10,18 +11,27 @@ struct Node
     Node *left, *right;
 };
 
-void printTree(std::ostream& output, Node*& ptr);
-void freeTree(Node*& ptr);
-
 class ExpressionTreeParser
 {
 public:
     ExpressionTreeParser(size_t stackSize);
+    ~ExpressionTreeParser();
 
-    Node* parseFromString(const std::string& input);
+    void parseFromString(const std::string& input);
 
-    Node* parseFromStream(std::istream& input);
+    void printTree(std::ostream& output);
 
 private:
+    Node* parseExpression(std::istream& input);
+
+    static void traverseNodes(std::ostream& output,
+        const std::string& padding,
+        const std::string& pointer,
+        Node*& ptr,
+        bool hasRightSibling);
+
+    static void freeTree(Node*& ptr);
+
     Stack<Node*> m_nodes;
+    Node* root = nullptr;
 };
