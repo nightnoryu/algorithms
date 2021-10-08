@@ -243,30 +243,3 @@ std::string InfixToPostfixParser::dumpLeftoverOperators()
 
     return result;
 }
-
-std::string InfixToPostfixParser::tokenString(const Token token)
-{
-    switch (token)
-    {
-    case Token::NUMBER:
-        return std::to_string(m_currentNumber);
-
-    case Token::END:
-        return "END";
-
-    case Token::PLUS:
-    case Token::MINUS:
-    case Token::MUL:
-    case Token::DIV:
-    case Token::POW:
-    case Token::UMINUS:
-    case Token::LP:
-    case Token::RP:
-        return std::string(1, static_cast<char>(token));
-
-    default:
-        break;
-    }
-
-    return "";
-}

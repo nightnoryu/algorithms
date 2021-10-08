@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCES
     src/ExpressionTreeParser.cpp
     src/InfixToPostfixParser.cpp
+    src/Token.cpp
     src/main.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})

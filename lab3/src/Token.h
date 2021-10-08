@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common_inc.h"
+
 enum class Token
 {
     IDLE,
@@ -14,3 +16,5 @@ enum class Token
     LP = '(',
     RP = ')',
 };
+
+std::string tokenToString(const Token token, const int number);
