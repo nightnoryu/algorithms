@@ -8,10 +8,14 @@ enum class Token
     END,
     NUMBER,
     POW = '^',
-    UMINUS = '~', UPLUS = '#',
-    MUL = '*', DIV = '/',
-    PLUS = '+', MINUS = '-',
-    LP = '(', RP = ')',
+    UMINUS = '~',
+    UPLUS = '#',
+    MUL = '*',
+    DIV = '/',
+    PLUS = '+',
+    MINUS = '-',
+    LP = '(',
+    RP = ')',
 };
 
 std::string tokenToString(const Token token, const int number);
