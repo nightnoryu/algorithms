@@ -7,7 +7,7 @@ ExpressionTreeParser::ExpressionTreeParser(size_t stackSize)
 
 ExpressionTreeParser::~ExpressionTreeParser()
 {
-    ExpressionTreeParser::freeTree(root);
+    ExpressionTreeParser::freeTree(m_root);
 }
 
 void ExpressionTreeParser::parseFromString(const std::string& input)
@@ -15,7 +15,7 @@ void ExpressionTreeParser::parseFromString(const std::string& input)
     std::stringstream inputStream(input);
     try
     {
-        root = parseExpression(inputStream);
+        m_root = parseExpression(inputStream);
     }
     catch (std::out_of_range& e)
     {
@@ -25,18 +25,18 @@ void ExpressionTreeParser::parseFromString(const std::string& input)
 
 void ExpressionTreeParser::printTree(std::ostream& output)
 {
-    if (root == nullptr)
+    if (m_root == nullptr)
     {
         return;
     }
 
-    output << tokenToString(root->token, root->number);
+    output << tokenToString(m_root->token, m_root->number);
 
     std::string pointerRight = "└──";
-    std::string pointerLeft = root->right != nullptr ? "├──" : "└──";
+    std::string pointerLeft = m_root->right != nullptr ? "├──" : "└──";
 
-    ExpressionTreeParser::traverseNodes(output, "", pointerLeft, root->left, root->right != nullptr);
-    ExpressionTreeParser::traverseNodes(output, "", pointerRight, root->right, false);
+    ExpressionTreeParser::traverseNodes(output, "", pointerLeft, m_root->left, m_root->right != nullptr);
+    ExpressionTreeParser::traverseNodes(output, "", pointerRight, m_root->right, false);
 }
 
 Node* ExpressionTreeParser::parseExpression(std::istream& input)

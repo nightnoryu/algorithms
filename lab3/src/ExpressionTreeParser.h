@@ -35,5 +35,5 @@ private:
     static void freeTree(Node*& ptr);
 
     Stack<Node*> m_nodes;
-    Node* root = nullptr;
+    Node* m_root = nullptr;
 };
