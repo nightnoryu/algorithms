@@ -19,6 +19,7 @@
  * Убедиться, что присутствует cmake, MinGW, MSYS и компилятор g++.
  */
 
+#include "ExpressionTreeParser.h"
 #include "InfixToPostfixParser.h"
 #include "common_inc.h"
 
@@ -78,17 +79,20 @@ int main(int argc, char** argv)
     getOutput(output, argc, argv);
 
     InfixToPostfixParser parser(stackSize);
-    // ExpressionTreeBuilder treeBuilder(stackSize);
+    ExpressionTreeParser treeParser(stackSize);
 
     try
     {
-
         std::string infix = readInitialExpression(input);
-        std::string postfix = parser.parseFromString(infix);
-
         output << "EXPRESSION: " << infix << std::endl;
+
+        std::string postfix = parser.parseFromString(infix);
+        output << "RPN:        " << postfix << std::endl;
+
         output << "BINARY EXPRESSION TREE:" << std::endl;
-        // treeBuilder.buildTreeToStream(output, postfix);
+        Node* root = treeParser.parseFromString(postfix);
+        printTree(output, root);
+        freeTree(root);
     }
     catch (std::exception& e)
     {
