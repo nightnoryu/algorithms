@@ -22,6 +22,6 @@ private:
 
     std::string dumpLeftoverOperators();
 
-    Stack<Token> m_operators;
-    int m_currentNumber;
+    Stack<Token> operators;
+    int currentNumber;
 };

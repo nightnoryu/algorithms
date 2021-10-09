@@ -8,14 +8,14 @@ class Stack
 public:
     Stack(size_t size)
     {
-        m_data = new T[size];
-        m_capacity = size;
-        m_top = -1;
+        dataArray = new T[size];
+        capacity = size;
+        top = -1;
     }
 
     ~Stack()
     {
-        delete[] m_data;
+        delete[] dataArray;
     }
 
     void push(T data)
@@ -24,7 +24,7 @@ public:
         {
             throw std::out_of_range("stack overflow");
         }
-        m_data[++m_top] = data;
+        dataArray[++top] = data;
     }
 
     T pop()
@@ -33,7 +33,7 @@ public:
         {
             throw std::out_of_range("stack underflow");
         }
-        return m_data[m_top--];
+        return dataArray[top--];
     }
 
     T peek() const
@@ -42,36 +42,36 @@ public:
         {
             throw std::out_of_range("stack underflow");
         }
-        return m_data[m_top];
+        return dataArray[top];
     }
 
     size_t size() const
     {
-        return m_top + 1;
+        return top + 1;
     }
 
     T* data() const
     {
-        return m_data;
+        return dataArray;
     }
 
     void flush()
     {
-        m_top = -1;
+        top = -1;
     }
 
     bool isFull() const
     {
-        return m_top == m_capacity - 1;
+        return top == capacity - 1;
     }
 
     bool isEmpty() const
     {
-        return m_top == -1;
+        return top == -1;
     }
 
 private:
-    T* m_data;
-    int m_top;
-    size_t m_capacity;
+    T* dataArray;
+    int top;
+    size_t capacity;
 };
