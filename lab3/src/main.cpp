@@ -95,7 +95,6 @@ int main(int argc, char** argv)
 
         output << "BINARY EXPRESSION TREE:\n";
         treeParser.printTree(output);
-        std::cout << std::endl;
     }
     catch (std::exception& e)
     {
