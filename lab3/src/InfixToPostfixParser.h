@@ -23,5 +23,6 @@ private:
     std::string dumpLeftoverOperators();
 
     Stack<Token> operators;
+    Token previousToken = Token::IDLE;
     int currentNumber;
 };

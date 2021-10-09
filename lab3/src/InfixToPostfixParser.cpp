@@ -88,43 +88,32 @@ Token InfixToPostfixParser::getToken(std::istream& input)
     case '9':
         input.putback(ch);
         input >> currentNumber;
-        return Token::NUMBER;
+        return (previousToken = Token::NUMBER);
 
     case '(':
-        return Token::LP;
+        return (previousToken = Token::LP);
 
     case ')':
-        return Token::RP;
+        return (previousToken = Token::RP);
 
     case '*':
     case '/':
     case '^':
-        return Token(ch);
+        return (previousToken = Token(ch));
 
     case '-':
-        if (std::isdigit(input.peek()))
+        if (previousToken == Token::NUMBER || previousToken == Token::RP)
         {
-            input.putback(ch);
-            input >> currentNumber;
-            return Token::NUMBER;
+            return (previousToken = Token::MINUS);
         }
-        else if (input.peek() == static_cast<char>(Token::LP))
-        {
-            return Token::UMINUS;
-        }
-        return Token(ch);
+        return (previousToken = Token::UMINUS);
 
     case '+':
-        if (std::isdigit(input.peek()))
+        if (previousToken == Token::NUMBER || previousToken == Token::RP)
         {
-            input >> currentNumber;
-            return Token::NUMBER;
+            return (previousToken = Token::PLUS);
         }
-        else if (input.peek() == static_cast<char>(Token::LP))
-        {
-            return Token::UPLUS;
-        }
-        return Token(ch);
+        return (previousToken = Token::UPLUS);
 
     default:
         throw std::invalid_argument(std::string("invalid token ") + ch);
@@ -175,10 +164,12 @@ std::string InfixToPostfixParser::dumpOperatorsUntilLeftParenthesis()
         }
         operators.pop();
 
-        if (!operators.isEmpty() && operators.peek() == Token::UMINUS)
+        token = operators.peek();
+        if (!operators.isEmpty() && (token == Token::UMINUS || token == Token::UPLUS))
         {
-            result += tokenToString(operators.pop());
+            result += tokenToString(token);
             result += ' ';
+            operators.pop();
         }
     }
     catch (std::out_of_range& e)
