@@ -111,6 +111,18 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
             m_nodes.push(newNode);
             break;
 
+        case '~':
+            node1 = m_nodes.pop();
+            newNode = ExpressionTreeParser::createNode(Token::UMINUS, node1, nullptr);
+            m_nodes.push(newNode);
+            break;
+
+        case '#':
+            node1 = m_nodes.pop();
+            newNode = ExpressionTreeParser::createNode(Token::UPLUS, node1, nullptr);
+            m_nodes.push(newNode);
+            break;
+
         default:
             break;
         }
