@@ -1,5 +1,17 @@
 #include "Token.h"
 
+using Priority = unsigned int;
+
+static std::unordered_map<Token, Priority> priorities = {
+    { Token::POW, 3 },
+    { Token::MUL, 2 },
+    { Token::DIV, 2 },
+    { Token::UPLUS, 1 },
+    { Token::UMINUS, 1 },
+    { Token::PLUS, 0 },
+    { Token::MINUS, 0 },
+};
+
 std::string tokenToString(const Token token, const int number)
 {
     std::string result;
@@ -32,44 +44,15 @@ std::string tokenToString(const Token token, const int number)
 
 bool hasHigherPrecedence(const Token t1, const Token t2)
 {
-    if (t1 == Token::POW && t2 != Token::POW)
-    {
-        return true;
-    }
-
-    if (t1 == Token::MUL || t1 == Token::DIV)
-    {
-        if (t2 == Token::PLUS || t2 == Token::MINUS)
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return priorities[t1] > priorities[t2];
 }
 
 bool hasEqualPrecedence(const Token t1, const Token t2)
 {
-    if (t1 == t2)
-    {
-        return true;
-    }
-
-    if (t1 == Token::PLUS && t2 == Token::MINUS || t1 == Token::MINUS && t2 == Token::PLUS)
-    {
-        return true;
-    }
-
-    if (t1 == Token::MUL && t2 == Token::DIV || t1 == Token::DIV && t2 == Token::MUL)
-    {
-        return true;
-    }
-
-    return false;
+    return priorities[t1] == priorities[t2];
 }
 
 bool isLeftAssociative(const Token t)
 {
     return t != Token::POW;
 }
-
