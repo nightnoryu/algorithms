@@ -163,14 +163,6 @@ std::string InfixToPostfixParser::dumpOperatorsUntilLeftParenthesis()
             token = operators.peek();
         }
         operators.pop();
-
-        token = operators.peek();
-        if (!operators.isEmpty() && (token == Token::UMINUS || token == Token::UPLUS))
-        {
-            result += tokenToString(token);
-            result += ' ';
-            operators.pop();
-        }
     }
     catch (std::out_of_range& e)
     {
