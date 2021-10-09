@@ -1,13 +1,13 @@
 #include "PostfixCalculator.h"
 
 PostfixCalculator::PostfixCalculator()
-    : m_stack(Stack<double>(256))
+    : stack(Stack<double>(256))
 {
 }
 
 double PostfixCalculator::calculate(const std::string& expression)
 {
-    m_stack.flush();
+    stack.flush();
     std::stringstream input(expression, std::ios_base::in);
     char ch;
     double operand;
@@ -28,11 +28,11 @@ double PostfixCalculator::calculate(const std::string& expression)
         case '9':
             input.putback(ch);
             input >> operand;
-            m_stack.push(operand);
+            stack.push(operand);
             break;
 
         case '+':
-            m_stack.push(m_stack.pop() + m_stack.pop());
+            stack.push(stack.pop() + stack.pop());
             break;
 
         case '-':
@@ -40,33 +40,33 @@ double PostfixCalculator::calculate(const std::string& expression)
             {
                 input.putback(ch);
                 input >> operand;
-                m_stack.push(operand);
+                stack.push(operand);
                 break;
             }
-            operand = m_stack.pop();
-            m_stack.push(m_stack.pop() - operand);
+            operand = stack.pop();
+            stack.push(stack.pop() - operand);
             break;
 
         case '*':
-            m_stack.push(m_stack.pop() * m_stack.pop());
+            stack.push(stack.pop() * stack.pop());
             break;
 
         case '/':
-            operand = m_stack.pop();
+            operand = stack.pop();
             if (operand == 0)
             {
                 throw std::logic_error("zero division");
             }
-            m_stack.push(m_stack.pop() / operand);
+            stack.push(stack.pop() / operand);
             break;
 
         case '^':
-            operand = m_stack.pop();
-            m_stack.push(std::pow(m_stack.pop(), operand));
+            operand = stack.pop();
+            stack.push(std::pow(stack.pop(), operand));
             break;
 
         case '~':
-            m_stack.push(-m_stack.pop());
+            stack.push(-stack.pop());
             break;
 
         default:
@@ -74,10 +74,10 @@ double PostfixCalculator::calculate(const std::string& expression)
         }
     }
 
-    if (m_stack.isEmpty())
+    if (stack.isEmpty())
     {
         throw std::logic_error("invalid expression");
     }
 
-    return m_stack.pop();
+    return stack.pop();
 }

@@ -49,9 +49,9 @@ bool isLeftAssociative(const Token t)
 }
 
 InfixToPostfixParser::InfixToPostfixParser(size_t stackSize, ParseLogger& logger)
-    : m_operators(Stack<Token>(stackSize))
-    , m_currentNumber(0)
-    , m_logger(logger)
+    : operators(Stack<Token>(stackSize))
+    , currentNumber(0)
+    , logger(logger)
 {
 }
 
@@ -63,7 +63,7 @@ std::string InfixToPostfixParser::parseFromString(const std::string& input)
 
 std::string InfixToPostfixParser::parseFromStream(std::istream& input)
 {
-    m_operators.flush();
+    operators.flush();
     std::string result;
     Token token = Token::IDLE;
 
@@ -74,7 +74,7 @@ std::string InfixToPostfixParser::parseFromStream(std::istream& input)
         switch (token)
         {
         case Token::NUMBER:
-            result += std::to_string(m_currentNumber);
+            result += std::to_string(currentNumber);
             result += ' ';
             break;
 
@@ -85,11 +85,11 @@ std::string InfixToPostfixParser::parseFromStream(std::istream& input)
         case Token::POW:
         case Token::UMINUS:
             result += dumpOperatorsWithHigherOrEqualPrecedence(token);
-            m_operators.push(token);
+            operators.push(token);
             break;
 
         case Token::LP:
-            m_operators.push(token);
+            operators.push(token);
             break;
 
         case Token::RP:
@@ -141,7 +141,7 @@ Token InfixToPostfixParser::getToken(std::istream& input)
     case '8':
     case '9':
         input.putback(ch);
-        input >> m_currentNumber;
+        input >> currentNumber;
         return Token::NUMBER;
 
     case '(':
@@ -160,7 +160,7 @@ Token InfixToPostfixParser::getToken(std::istream& input)
         if (std::isdigit(input.peek()))
         {
             input.putback(ch);
-            input >> m_currentNumber;
+            input >> currentNumber;
             return Token::NUMBER;
         }
         else if (input.peek() == static_cast<char>(Token::LP))
@@ -176,15 +176,15 @@ Token InfixToPostfixParser::getToken(std::istream& input)
 
 std::string InfixToPostfixParser::dumpOperatorsWithHigherOrEqualPrecedence(Token op)
 {
-    if (m_operators.isEmpty())
+    if (operators.isEmpty())
     {
         return "";
     }
 
     std::string result;
-    Token token = m_operators.peek();
+    Token token = operators.peek();
 
-    while (!m_operators.isEmpty()
+    while (!operators.isEmpty()
         && token != Token::LP
         && (hasHigherPrecedence(token, op)
             || (hasEqualPrecedence(token, op) && isLeftAssociative(token))))
@@ -192,10 +192,10 @@ std::string InfixToPostfixParser::dumpOperatorsWithHigherOrEqualPrecedence(Token
         result += static_cast<char>(token);
         result += ' ';
 
-        m_operators.pop();
-        if (!m_operators.isEmpty())
+        operators.pop();
+        if (!operators.isEmpty())
         {
-            token = m_operators.peek();
+            token = operators.peek();
         }
     }
 
@@ -205,19 +205,19 @@ std::string InfixToPostfixParser::dumpOperatorsWithHigherOrEqualPrecedence(Token
 std::string InfixToPostfixParser::dumpOperatorsUntilLeftParenthesis()
 {
     std::string result;
-    Token token = m_operators.peek();
+    Token token = operators.peek();
 
     try
     {
-        while (!m_operators.isEmpty() && token != Token::LP)
+        while (!operators.isEmpty() && token != Token::LP)
         {
             result += static_cast<char>(token);
             result += ' ';
 
-            m_operators.pop();
-            token = m_operators.peek();
+            operators.pop();
+            token = operators.peek();
         }
-        m_operators.pop();
+        operators.pop();
     }
     catch (std::out_of_range& e)
     {
@@ -232,9 +232,9 @@ std::string InfixToPostfixParser::dumpLeftoverOperators()
     std::string result;
     Token token;
 
-    while (!m_operators.isEmpty())
+    while (!operators.isEmpty())
     {
-        token = m_operators.pop();
+        token = operators.pop();
         result += static_cast<char>(token);
 
         if (token == Token::LP)
@@ -242,7 +242,7 @@ std::string InfixToPostfixParser::dumpLeftoverOperators()
             throw std::logic_error("mismatched parentheses");
         }
 
-        if (!m_operators.isEmpty())
+        if (!operators.isEmpty())
         {
             result += ' ';
         }
@@ -254,8 +254,8 @@ std::string InfixToPostfixParser::dumpLeftoverOperators()
 void InfixToPostfixParser::appendToLog(const Token token, const std::string expression)
 {
     std::string stackDump;
-    Token const* const stack = m_operators.data();
-    size_t size = m_operators.size();
+    Token const* const stack = operators.data();
+    size_t size = operators.size();
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -266,7 +266,7 @@ void InfixToPostfixParser::appendToLog(const Token token, const std::string expr
         }
     }
 
-    m_logger.addEntry(tokenString(token), expression, stackDump);
+    logger.addEntry(tokenString(token), expression, stackDump);
 }
 
 std::string InfixToPostfixParser::tokenString(const Token token)
@@ -274,7 +274,7 @@ std::string InfixToPostfixParser::tokenString(const Token token)
     switch (token)
     {
     case Token::NUMBER:
-        return std::to_string(m_currentNumber);
+        return std::to_string(currentNumber);
 
     case Token::END:
         return "END";

@@ -43,7 +43,7 @@ private:
 
     std::string tokenString(const Token token);
 
-    Stack<Token> m_operators;
-    int m_currentNumber;
-    ParseLogger& m_logger;
+    Stack<Token> operators;
+    int currentNumber;
+    ParseLogger& logger;
 };

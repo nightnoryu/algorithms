@@ -13,5 +13,5 @@ public:
     double calculate(const std::string& expression);
 
 private:
-    Stack<double> m_stack;
+    Stack<double> stack;
 };

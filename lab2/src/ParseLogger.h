@@ -20,9 +20,9 @@ private:
 
     size_t findLongestString(std::string const* const strings);
 
-    std::string* m_tokens;
-    std::string* m_expressions;
-    std::string* m_stackDumps;
-    size_t m_size;
-    size_t m_top;
+    std::string* tokens;
+    std::string* expressions;
+    std::string* stackDumps;
+    size_t size;
+    size_t top;
 };
