@@ -18,4 +18,7 @@ enum class Token
     RP = ')',
 };
 
-std::string tokenToString(const Token token, const int number);
+std::string tokenToString(const Token token, const int number = 0);
+bool hasHigherPrecedence(const Token t1, const Token t2);
+bool hasEqualPrecedence(const Token t1, const Token t2);
+bool isLeftAssociative(const Token t);
