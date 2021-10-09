@@ -70,6 +70,8 @@ void getOutput(std::ofstream& output, int argc, char** argv)
 
 int main(int argc, char** argv)
 {
+    std::system("chcp 65001 >NUL");
+
     const size_t stackSize = 256;
 
     std::ifstream input;
@@ -78,7 +80,7 @@ int main(int argc, char** argv)
     std::ofstream output;
     getOutput(output, argc, argv);
 
-    InfixToPostfixParser parser(stackSize);
+    InfixToPostfixParser expressionParser(stackSize);
     ExpressionTreeParser treeParser(stackSize);
 
     try
@@ -86,10 +88,11 @@ int main(int argc, char** argv)
         std::string infix = readInitialExpression(input);
         output << "\nEXPRESSION: " << infix << "\n";
 
-        std::string postfix = parser.parseFromString(infix);
+        std::string postfix = expressionParser.parseFromString(infix);
         output << "RPN:        " << postfix << "\n\n";
 
         treeParser.parseFromString(postfix);
+
         output << "BINARY EXPRESSION TREE:\n";
         treeParser.printTree(output);
         std::cout << std::endl;

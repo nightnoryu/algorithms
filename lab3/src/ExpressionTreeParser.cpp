@@ -37,6 +37,7 @@ void ExpressionTreeParser::printTree(std::ostream& output)
 
     ExpressionTreeParser::traverseNodes(output, "", pointerLeft, m_root->left, m_root->right != nullptr);
     ExpressionTreeParser::traverseNodes(output, "", pointerRight, m_root->right, false);
+    output << std::endl;
 }
 
 Node* ExpressionTreeParser::parseExpression(std::istream& input)
