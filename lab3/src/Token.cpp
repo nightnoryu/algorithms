@@ -18,7 +18,7 @@ std::string tokenToString(const Token token, const int number)
 
     switch (token)
     {
-    case Token::NUMBER:
+    case Token::IDENTIFIER:
         result = std::to_string(number);
         break;
     case Token::END:

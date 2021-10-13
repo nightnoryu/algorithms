@@ -2,7 +2,7 @@
 
 InfixToPostfixParser::InfixToPostfixParser(size_t stackSize)
     : operators(Stack<Token>(stackSize))
-    , currentNumber(0)
+    , currentIdentifier("")
 {
 }
 
@@ -24,8 +24,8 @@ std::string InfixToPostfixParser::parseFromStream(std::istream& input)
 
         switch (token)
         {
-        case Token::NUMBER:
-            result += std::to_string(currentNumber);
+        case Token::IDENTIFIER:
+            result += currentIdentifier;
             result += ' ';
             break;
 
@@ -76,20 +76,6 @@ Token InfixToPostfixParser::getToken(std::istream& input)
     case '\n':
         return Token::END;
 
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-        input.putback(ch);
-        input >> currentNumber;
-        return (previousToken = Token::NUMBER);
-
     case '(':
         return (previousToken = Token::LP);
 
@@ -102,20 +88,30 @@ Token InfixToPostfixParser::getToken(std::istream& input)
         return (previousToken = Token(ch));
 
     case '-':
-        if (previousToken == Token::NUMBER || previousToken == Token::RP)
+        if (previousToken == Token::IDENTIFIER || previousToken == Token::RP)
         {
             return (previousToken = Token::MINUS);
         }
         return (previousToken = Token::UMINUS);
 
     case '+':
-        if (previousToken == Token::NUMBER || previousToken == Token::RP)
+        if (previousToken == Token::IDENTIFIER || previousToken == Token::RP)
         {
             return (previousToken = Token::PLUS);
         }
         return (previousToken = Token::UPLUS);
 
     default:
+        if (std::isalpha(ch))
+        {
+            currentIdentifier = std::string(1, ch);
+            while (input.get(ch) && std::isalnum(ch))
+            {
+                currentIdentifier += ch;
+            }
+            input.putback(ch);
+            return (previousToken = Token::IDENTIFIER);
+        }
         throw std::invalid_argument(std::string("invalid token ") + ch);
     }
 }

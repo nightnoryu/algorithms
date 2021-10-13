@@ -64,7 +64,7 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
         case '9':
             input.putback(ch);
             input >> number;
-            newNode = ExpressionTreeParser::createNode(Token::NUMBER, nullptr, nullptr, number);
+            newNode = ExpressionTreeParser::createNode(Token::IDENTIFIER, nullptr, nullptr, number);
             nodes.push(newNode);
             break;
 
@@ -80,7 +80,7 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
             {
                 input.putback(ch);
                 input >> number;
-                newNode = ExpressionTreeParser::createNode(Token::NUMBER, nullptr, nullptr, number);
+                newNode = ExpressionTreeParser::createNode(Token::IDENTIFIER, nullptr, nullptr, number);
                 nodes.push(newNode);
                 break;
             }

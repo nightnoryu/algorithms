@@ -24,5 +24,5 @@ private:
 
     Stack<Token> operators;
     Token previousToken = Token::IDLE;
-    int currentNumber;
+    std::string currentIdentifier;
 };

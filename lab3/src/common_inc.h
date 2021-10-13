@@ -8,5 +8,6 @@
 
 #include <sstream>
 #include <string>
+#include <cctype>
 
 #include <stdexcept>

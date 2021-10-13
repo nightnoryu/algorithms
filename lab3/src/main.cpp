@@ -1,7 +1,7 @@
 /*
  * lab3
  * 
- *   20. Имеется  некоторое  алгебраическое выражение.  Операнды
+ *    20. Имеется  некоторое  алгебраическое выражение.  Операнды
  * заданы идентификаторами,  операции выполняются по приоритетам,
  * допускается использование круглых скобок. Возможны одноместные
  * операции '+' и '-', а также операция возведения в степень '^'.
@@ -91,10 +91,10 @@ int main(int argc, char** argv)
         std::string postfix = expressionParser.parseFromString(infix);
         output << "RPN:        " << postfix << "\n\n";
 
-        treeParser.parseFromString(postfix);
+        // treeParser.parseFromString(postfix);
 
-        output << "BINARY EXPRESSION TREE:\n";
-        treeParser.printTree(output);
+        // output << "BINARY EXPRESSION TREE:\n";
+        // treeParser.printTree(output);
     }
     catch (std::exception& e)
     {

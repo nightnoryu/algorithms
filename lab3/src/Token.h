@@ -6,7 +6,7 @@ enum class Token
 {
     IDLE,
     END,
-    NUMBER,
+    IDENTIFIER,
     POW = '^',
     UMINUS = '~',
     UPLUS = '#',
