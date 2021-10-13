@@ -91,10 +91,10 @@ int main(int argc, char** argv)
         std::string postfix = expressionParser.parseFromString(infix);
         output << "RPN:        " << postfix << "\n\n";
 
-        // treeParser.parseFromString(postfix);
+        treeParser.parseFromString(postfix);
 
-        // output << "BINARY EXPRESSION TREE:\n";
-        // treeParser.printTree(output);
+        output << "BINARY EXPRESSION TREE:\n";
+        treeParser.printTree(output);
     }
     catch (std::exception& e)
     {

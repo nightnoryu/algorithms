@@ -12,14 +12,14 @@ static std::unordered_map<Token, Priority> priorities = {
     { Token::MINUS, 0 },
 };
 
-std::string tokenToString(const Token token, const int number)
+std::string tokenToString(const Token token, const std::string identifier)
 {
     std::string result;
 
     switch (token)
     {
     case Token::IDENTIFIER:
-        result = std::to_string(number);
+        result = identifier;
         break;
     case Token::END:
         result = "END";

@@ -7,7 +7,7 @@
 struct Node
 {
     Token token;
-    int number;
+    std::string identifier;
     Node *left, *right;
 };
 
@@ -24,7 +24,7 @@ public:
 private:
     Node* parseExpression(std::istream& input);
 
-    static Node* createNode(const Token token, Node* left, Node* right, int number = 0);
+    static Node* createNode(const Token token, Node* left, Node* right, std::string identifier = "");
 
     static void traverseNodes(std::ostream& output,
         const std::string& padding,

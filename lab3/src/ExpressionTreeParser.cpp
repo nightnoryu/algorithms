@@ -30,7 +30,7 @@ void ExpressionTreeParser::printTree(std::ostream& output)
         return;
     }
 
-    output << tokenToString(root->token, root->number);
+    output << tokenToString(root->token, root->identifier);
 
     std::string pointerRight = "└──";
     std::string pointerLeft = root->right != nullptr ? "├──" : "└──";
@@ -44,7 +44,7 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
 {
     nodes.flush();
     char ch;
-    int number;
+    std::string identifier;
     Node *node1, *node2, *newNode;
 
     while (input.get(ch))
@@ -52,22 +52,6 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
 
         switch (ch)
         {
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            input.putback(ch);
-            input >> number;
-            newNode = ExpressionTreeParser::createNode(Token::IDENTIFIER, nullptr, nullptr, number);
-            nodes.push(newNode);
-            break;
-
         case '+':
             node2 = nodes.pop();
             node1 = nodes.pop();
@@ -76,14 +60,6 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
             break;
 
         case '-':
-            if (std::isdigit(input.peek()))
-            {
-                input.putback(ch);
-                input >> number;
-                newNode = ExpressionTreeParser::createNode(Token::IDENTIFIER, nullptr, nullptr, number);
-                nodes.push(newNode);
-                break;
-            }
             node2 = nodes.pop();
             node1 = nodes.pop();
             newNode = ExpressionTreeParser::createNode(Token::MINUS, node1, node2);
@@ -124,6 +100,17 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
             break;
 
         default:
+            if (std::isalpha(ch))
+            {
+                identifier = std::string(1, ch);
+                while (input.get(ch) && std::isalnum(ch))
+                {
+                    identifier += ch;
+                }
+                input.putback(ch);
+                newNode = ExpressionTreeParser::createNode(Token::IDENTIFIER, nullptr, nullptr, identifier);
+                nodes.push(newNode);
+            }
             break;
         }
     }
@@ -131,13 +118,13 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
     return nodes.pop();
 }
 
-Node* ExpressionTreeParser::createNode(const Token token, Node* left, Node* right, int number)
+Node* ExpressionTreeParser::createNode(const Token token, Node* left, Node* right, std::string identifier)
 {
     Node* node = new Node;
     node->token = token;
     node->left = left;
     node->right = right;
-    node->number = number;
+    node->identifier = identifier;
     return node;
 }
 
@@ -150,7 +137,7 @@ void ExpressionTreeParser::traverseNodes(std::ostream& output,
     if (ptr != nullptr)
     {
         output << std::endl
-               << padding << pointer << tokenToString(ptr->token, ptr->number);
+               << padding << pointer << tokenToString(ptr->token, ptr->identifier);
 
         std::string newPadding = padding;
         if (hasRightSibling)
