@@ -34,6 +34,8 @@ private:
 
     static void freeTree(Node*& ptr);
 
+    std::string readIdentifier(std::istream& input);
+
     Stack<Node*> nodes;
     Node* root = nullptr;
 };

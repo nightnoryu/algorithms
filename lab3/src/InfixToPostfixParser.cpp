@@ -104,12 +104,8 @@ Token InfixToPostfixParser::getToken(std::istream& input)
     default:
         if (std::isalpha(ch))
         {
-            currentIdentifier = std::string(1, ch);
-            while (input.get(ch) && std::isalnum(ch))
-            {
-                currentIdentifier += ch;
-            }
             input.putback(ch);
+            readIdentifier(input);
             return (previousToken = Token::IDENTIFIER);
         }
         throw std::invalid_argument(std::string("invalid token ") + ch);
@@ -190,4 +186,15 @@ std::string InfixToPostfixParser::dumpLeftoverOperators()
     }
 
     return result;
+}
+
+void InfixToPostfixParser::readIdentifier(std::istream& input)
+{
+    char ch;
+    currentIdentifier = "";
+    while (input.get(ch) && std::isalnum(ch))
+    {
+        currentIdentifier += ch;
+    }
+    input.putback(ch);
 }

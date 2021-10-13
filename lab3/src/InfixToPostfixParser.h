@@ -22,6 +22,8 @@ private:
 
     std::string dumpLeftoverOperators();
 
+    void readIdentifier(std::istream& input);
+
     Stack<Token> operators;
     Token previousToken = Token::IDLE;
     std::string currentIdentifier;

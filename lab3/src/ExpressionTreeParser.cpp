@@ -53,61 +53,28 @@ Node* ExpressionTreeParser::parseExpression(std::istream& input)
         switch (ch)
         {
         case '+':
-            node2 = nodes.pop();
-            node1 = nodes.pop();
-            newNode = ExpressionTreeParser::createNode(Token::PLUS, node1, node2);
-            nodes.push(newNode);
-            break;
-
         case '-':
-            node2 = nodes.pop();
-            node1 = nodes.pop();
-            newNode = ExpressionTreeParser::createNode(Token::MINUS, node1, node2);
-            nodes.push(newNode);
-            break;
-
         case '*':
-            node2 = nodes.pop();
-            node1 = nodes.pop();
-            newNode = ExpressionTreeParser::createNode(Token::MUL, node1, node2);
-            nodes.push(newNode);
-            break;
-
         case '/':
-            node2 = nodes.pop();
-            node1 = nodes.pop();
-            newNode = ExpressionTreeParser::createNode(Token::DIV, node1, node2);
-            nodes.push(newNode);
-            break;
-
         case '^':
             node2 = nodes.pop();
             node1 = nodes.pop();
-            newNode = ExpressionTreeParser::createNode(Token::POW, node1, node2);
+            newNode = ExpressionTreeParser::createNode(Token(ch), node1, node2);
             nodes.push(newNode);
             break;
 
         case '~':
-            node1 = nodes.pop();
-            newNode = ExpressionTreeParser::createNode(Token::UMINUS, node1, nullptr);
-            nodes.push(newNode);
-            break;
-
         case '#':
             node1 = nodes.pop();
-            newNode = ExpressionTreeParser::createNode(Token::UPLUS, node1, nullptr);
+            newNode = ExpressionTreeParser::createNode(Token(ch), node1, nullptr);
             nodes.push(newNode);
             break;
 
         default:
             if (std::isalpha(ch))
             {
-                identifier = std::string(1, ch);
-                while (input.get(ch) && std::isalnum(ch))
-                {
-                    identifier += ch;
-                }
                 input.putback(ch);
+                identifier = readIdentifier(input);
                 newNode = ExpressionTreeParser::createNode(Token::IDENTIFIER, nullptr, nullptr, identifier);
                 nodes.push(newNode);
             }
@@ -166,4 +133,16 @@ void ExpressionTreeParser::freeTree(Node*& ptr)
         delete ptr;
         ptr = nullptr;
     }
+}
+
+std::string ExpressionTreeParser::readIdentifier(std::istream& input)
+{
+    char ch;
+    std::string identifier;
+    while (input.get(ch) && std::isalnum(ch))
+    {
+        identifier += ch;
+    }
+    input.putback(ch);
+    return identifier;
 }
