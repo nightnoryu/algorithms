@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCES
     src/GraphParser.cpp
     src/MaxWeightFinder.cpp
-    src/InputProvider.cpp
     src/main.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})

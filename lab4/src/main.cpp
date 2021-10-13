@@ -19,10 +19,38 @@
  */
 
 #include "common_inc.h"
-#include "InputProvider.h"
 #include "GraphParser.h"
 #include "MaxWeightFinder.h"
 
 int main(int argc, char** argv)
 {
+    std::string path;
+    if (argc >= 2)
+    {
+        path = argv[1];
+    }
+    else
+    {
+        std::cout << "Enter graph file name: ";
+        std::cin >> path;
+    }
+
+    std::ifstream input(path);
+    if (!input.is_open())
+    {
+        std::cerr << "ERROR: failed to open input file for reading" << std::endl;
+        std::exit(1);
+    }
+
+    GraphParser parser;
+
+    try
+    {
+        auto graph = parser.parseFromStream(input);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "\nERROR: " << e.what() << std::endl;
+        exit(1);
+    }
 }
