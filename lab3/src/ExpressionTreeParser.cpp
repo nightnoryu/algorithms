@@ -1,5 +1,9 @@
 ﻿#include "ExpressionTreeParser.h"
 
+static const std::string separator = "│";
+static const std::string singleBranch = "└──";
+static const std::string doubleBranch = "├──";
+
 ExpressionTreeParser::ExpressionTreeParser(size_t stackSize)
     : nodes(Stack<Node*>(stackSize))
 {
@@ -32,8 +36,8 @@ void ExpressionTreeParser::printTree(std::ostream& output)
 
     output << tokenToString(root->token, root->identifier);
 
-    std::string pointerRight = "└──";
-    std::string pointerLeft = root->right != nullptr ? "├──" : "└──";
+    std::string pointerRight = singleBranch;
+    std::string pointerLeft = root->right != nullptr ? doubleBranch : singleBranch;
 
     ExpressionTreeParser::traverseNodes(output, "", pointerLeft, root->left, root->right != nullptr);
     ExpressionTreeParser::traverseNodes(output, "", pointerRight, root->right, false);
@@ -109,15 +113,15 @@ void ExpressionTreeParser::traverseNodes(std::ostream& output,
         std::string newPadding = padding;
         if (hasRightSibling)
         {
-            newPadding += "│  ";
+            newPadding += separator + "  ";
         }
         else
         {
             newPadding += "   ";
         }
 
-        std::string pointerRight = "└──";
-        std::string pointerLeft = ptr->right != nullptr ? "├──" : "└──";
+        std::string pointerRight = singleBranch;
+        std::string pointerLeft = ptr->right != nullptr ? doubleBranch : singleBranch;
 
         traverseNodes(output, newPadding, pointerLeft, ptr->left, ptr->right != nullptr);
         traverseNodes(output, newPadding, pointerRight, ptr->right, false);
