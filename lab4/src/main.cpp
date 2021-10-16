@@ -47,6 +47,14 @@ int main(int argc, char** argv)
     try
     {
         auto graph = parser.parseFromStream(input);
+        for (auto const& row : graph)
+        {
+            for (auto const& cell : row)
+            {
+                std::cout << cell << ' ';
+            }
+            std::cout << std::endl;
+        }
     }
     catch (const std::exception& e)
     {
