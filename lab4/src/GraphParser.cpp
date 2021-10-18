@@ -16,7 +16,7 @@ std::vector<PathWithWeight> GraphParser::readPaths(std::istream& input)
 {
     std::vector<PathWithWeight> paths;
 
-    uint from, to, weight;
+    int from, to, weight;
     while (input)
     {
         input >> from >> to >> weight;
@@ -28,17 +28,18 @@ std::vector<PathWithWeight> GraphParser::readPaths(std::istream& input)
 
 void GraphParser::initializeGraph(Graph& graph, const std::vector<PathWithWeight>& paths)
 {
-    uint maxNode = findMaxNode(paths);
-    for (uint i = 0; i < maxNode; ++i)
+    int maxNode = findMaxNode(paths);
+    for (int i = 0; i < maxNode; ++i)
     {
-        graph.push_back(std::vector<uint>(maxNode, 0));
+        graph.push_back(std::vector<int>(maxNode, INT_MAX));
+        graph[i][i] = 0;
     }
 
 }
 
-uint GraphParser::findMaxNode(const std::vector<PathWithWeight>& paths)
+int GraphParser::findMaxNode(const std::vector<PathWithWeight>& paths)
 {
-    std::vector<uint> nodes;
+    std::vector<int> nodes;
     for (auto const& path : paths)
     {
         nodes.push_back(path.from);
