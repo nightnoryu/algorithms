@@ -42,19 +42,20 @@ int main(int argc, char** argv)
         std::exit(1);
     }
 
+    int from, to;
+    std::cout << "Enter departure city number: ";
+    std::cin >> from;
+    std::cout << "Enter destination city number: ";
+    std::cin >> to;
+    --from, --to;
+
     GraphParser parser;
+    MaxWeightFinder finder;
 
     try
     {
         auto graph = parser.parseFromStream(input);
-        for (auto const& row : graph)
-        {
-            for (auto const& cell : row)
-            {
-                std::cout << cell << ' ';
-            }
-            std::cout << std::endl;
-        }
+        auto path = finder.findPathWithMaxWeight(graph, from, to);
     }
     catch (const std::exception& e)
     {
