@@ -24,18 +24,18 @@
 
 int main(int argc, char** argv)
 {
-    std::string path;
+    std::string filePath;
     if (argc >= 2)
     {
-        path = argv[1];
+        filePath = argv[1];
     }
     else
     {
         std::cout << "Enter graph file name: ";
-        std::cin >> path;
+        std::cin >> filePath;
     }
 
-    std::ifstream input(path);
+    std::ifstream input(filePath);
     if (!input.is_open())
     {
         std::cerr << "ERROR: failed to open input file for reading" << std::endl;
