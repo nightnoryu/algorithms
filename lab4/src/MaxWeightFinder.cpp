@@ -2,65 +2,43 @@
 
 std::vector<PathWithWeight> MaxWeightFinder::findPathWithMaxWeight(const Graph& graph, int from, int to)
 {
-    std::vector<bool> unvisited(graph.size(), true);
-    std::map<int, int> longestPath;
-    std::map<int, int> previousNodes;
-    for (int node = 0; node < unvisited.size(); ++node)
-    {
-        longestPath[node] = INT_MIN;
-    }
-    longestPath[from] = 0;
+    std::vector<int> D(graph.size(), -1);
+    std::vector<int> C(graph.size(), -1);
+    std::vector<int> nodes;
 
-    while (std::any_of(unvisited.begin(), unvisited.end(), [](bool value) { return value; }))
+    C[from] = INT_MAX;
+    int i = from;
+    do
     {
-        int currentMaxNode = INT_MIN;
-        for (int node = 0; node < unvisited.size(); ++node)
+        for (int j = 0; j < graph.size(); ++j)
         {
-            if (unvisited[node])
+            if (graph[i][j] != INT_MAX)
             {
-                if (currentMaxNode == INT_MIN)
+                auto M = std::min(C[i], graph[i][j]);
+                auto oldD = D[j];
+                D[j] = std::max(M, D[j]);
+                if (D[j] > oldD)
                 {
-                    currentMaxNode = node;
-                }
-                else if (longestPath[node] > longestPath[currentMaxNode])
-                {
-                    currentMaxNode = node;
+                    nodes.push_back(i);
                 }
             }
         }
 
-        for (int neighbor = 0; neighbor < graph.size(); ++neighbor)
+        auto maxD = std::max_element(D.begin(), D.end());
+        if (maxD != D.end())
         {
-            if (graph[currentMaxNode][neighbor] != INT_MIN)
-            {
-                int tentativeValue = longestPath[currentMaxNode] + graph[currentMaxNode][neighbor];
-                if (tentativeValue > longestPath[neighbor])
-                {
-                    longestPath[neighbor] = tentativeValue;
-                    previousNodes[neighbor] = currentMaxNode;
-                }
-            }
+            int k = std::distance(D.begin(), maxD);
+            C[k] = *maxD;
+            D[k] = -1;
+            i = k;
         }
+        else
+        {
+            break; // No way
+        }
+    } while (C[to] == -1);
 
-        unvisited[currentMaxNode] = false;
-    }
+    std::cout << C[to] << std::endl;
 
-    std::vector<int> path;
-    int node = to;
-
-    while (node != from)
-    {
-        path.push_back(node);
-        node = previousNodes[node];
-    }
-    path.push_back(from);
-    std::reverse(path.begin(), path.end());
-
-    std::cout << "longest: " << longestPath[to] << std::endl;
-    for (auto const& node : path)
-    {
-        std::cout << node + 1 << std::endl;
-    }
-
-    return std::vector<PathWithWeight>();
+    return {};
 }
