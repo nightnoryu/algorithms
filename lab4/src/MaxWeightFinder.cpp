@@ -2,36 +2,55 @@
 
 int MaxWeightFinder::findPathWithMaxWeight(const Graph& graph, int from, int to)
 {
-    std::vector<int> D(graph.size(), -1);
-    std::vector<int> C(graph.size(), -1);
-
-    C[from] = INT_MAX;
+    initializeMarks(graph, from);
     int i = from;
+
     do
     {
-        for (int j = 0; j < graph.size(); ++j)
-        {
-            if (graph[i][j] != INT_MAX)
-            {
-                auto M = std::min(C[i], graph[i][j]);
-                auto oldD = D[j];
-                D[j] = std::max(M, D[j]);
-            }
-        }
+        recalculateTemporaryMarks(graph, i);
+        i = maxTemporaryToConstant();
+    } while (hasNoMark(to));
 
-        auto maxD = std::max_element(D.begin(), D.end());
-        if (maxD != D.end())
-        {
-            int k = std::distance(D.begin(), maxD);
-            C[k] = *maxD;
-            D[k] = -1;
-            i = k;
-        }
-        else
-        {
-            throw std::logic_error("there are no way");
-        }
-    } while (C[to] == -1);
+    return constantMarks[to];
+}
 
-    return C[to];
+void MaxWeightFinder::initializeMarks(const Graph& graph, int from)
+{
+    temporaryMarks.assign(graph.size(), -1);
+    constantMarks.assign(graph.size(), -1);
+    constantMarks[from] = INT_MAX;
+}
+
+void MaxWeightFinder::recalculateTemporaryMarks(const Graph& graph, int i)
+{
+    for (int j = 0; j < graph.size(); ++j)
+    {
+        if (graph[i][j] != INT_MAX)
+        {
+            temporaryMarks[j] = std::max(std::min(constantMarks[i], graph[i][j]), temporaryMarks[j]);
+        }
+    }
+}
+
+int MaxWeightFinder::maxTemporaryToConstant()
+{
+    auto maxD = std::max_element(temporaryMarks.begin(), temporaryMarks.end());
+    int k;
+    if (maxD != temporaryMarks.end())
+    {
+        k = std::distance(temporaryMarks.begin(), maxD);
+        constantMarks[k] = *maxD;
+        temporaryMarks[k] = -1;
+    }
+    else
+    {
+        throw std::logic_error("there are no way");
+    }
+
+    return k;
+}
+
+bool MaxWeightFinder::hasNoMark(int node)
+{
+    return constantMarks[node] == -1;
 }
