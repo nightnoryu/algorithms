@@ -1,10 +1,10 @@
 #pragma once
 
-#include "common_inc.h"
 #include "GraphParser.h"
+#include "common_inc.h"
 
 class MaxWeightFinder
 {
 public:
-    std::vector<PathWithWeight> findPathWithMaxWeight(const Graph& graph, int from, int to);
+    int findPathWithMaxWeight(const Graph& graph, int from, int to);
 };

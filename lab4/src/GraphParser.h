@@ -11,7 +11,6 @@ struct PathWithWeight
 
 using Graph = std::vector<std::vector<int>>;
 
-
 class GraphParser
 {
 public:

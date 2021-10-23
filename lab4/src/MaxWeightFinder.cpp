@@ -1,10 +1,9 @@
 #include "MaxWeightFinder.h"
 
-std::vector<PathWithWeight> MaxWeightFinder::findPathWithMaxWeight(const Graph& graph, int from, int to)
+int MaxWeightFinder::findPathWithMaxWeight(const Graph& graph, int from, int to)
 {
     std::vector<int> D(graph.size(), -1);
     std::vector<int> C(graph.size(), -1);
-    std::vector<int> nodes;
 
     C[from] = INT_MAX;
     int i = from;
@@ -17,10 +16,6 @@ std::vector<PathWithWeight> MaxWeightFinder::findPathWithMaxWeight(const Graph& 
                 auto M = std::min(C[i], graph[i][j]);
                 auto oldD = D[j];
                 D[j] = std::max(M, D[j]);
-                if (D[j] > oldD)
-                {
-                    nodes.push_back(i);
-                }
             }
         }
 
@@ -34,11 +29,9 @@ std::vector<PathWithWeight> MaxWeightFinder::findPathWithMaxWeight(const Graph& 
         }
         else
         {
-            break; // No way
+            throw std::logic_error("there are no way");
         }
     } while (C[to] == -1);
 
-    std::cout << C[to] << std::endl;
-
-    return {};
+    return C[to];
 }

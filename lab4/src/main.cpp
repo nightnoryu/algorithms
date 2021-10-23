@@ -2,9 +2,9 @@
  * lab4
  *
  *    19. Имеется  сеть  автомобильных  дорог.  Для каждой дороги
- * известна максимальная масса груза, которую можно  провезти  по 
- * этой   дороге.   С   помощью  алгоритма  Дейкстры   определить 
- * максимальный   груз,   который  можно  провезти  между   двумя 
+ * известна максимальная масса груза, которую можно  провезти  по
+ * этой   дороге.   С   помощью  алгоритма  Дейкстры   определить
+ * максимальный   груз,   который  можно  провезти  между   двумя
  * указанными городам (10).
 
  * Выполнил:
@@ -18,11 +18,11 @@
  * Убедиться, что присутствует cmake, MinGW, MSYS и компилятор g++.
  */
 
-#include "common_inc.h"
 #include "GraphParser.h"
 #include "MaxWeightFinder.h"
+#include "common_inc.h"
 
-int main(int argc, char** argv)
+void openFile(std::ifstream& input, int argc, char** argv)
 {
     std::string filePath;
     if (argc >= 2)
@@ -35,12 +35,18 @@ int main(int argc, char** argv)
         std::cin >> filePath;
     }
 
-    std::ifstream input(filePath);
+    input.open(filePath);
     if (!input.is_open())
     {
         std::cerr << "ERROR: failed to open input file for reading" << std::endl;
         std::exit(1);
     }
+}
+
+int main(int argc, char** argv)
+{
+    std::ifstream input;
+    openFile(input, argc, argv);
 
     int from, to;
     std::cout << "Enter departure city number: ";
@@ -55,7 +61,9 @@ int main(int argc, char** argv)
     try
     {
         auto graph = parser.parseFromStream(input);
-        auto path = finder.findPathWithMaxWeight(graph, from, to);
+        int maxWeight = finder.findPathWithMaxWeight(graph, from, to);
+
+        std::cout << "MAX WEIGHT: " << maxWeight << std::endl;
     }
     catch (const std::exception& e)
     {
