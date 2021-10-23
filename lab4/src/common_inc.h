@@ -1,9 +1,9 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 #include <algorithm>
-#include <vector>
 #include <map>
+#include <vector>
 
-#include <exception>
 #include <climits>
+#include <exception>

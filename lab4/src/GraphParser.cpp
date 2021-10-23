@@ -34,7 +34,6 @@ void GraphParser::initializeGraph(Graph& graph, const std::vector<PathWithWeight
         graph.push_back(std::vector<int>(maxNode, INT_MAX));
         graph[i][i] = 0;
     }
-
 }
 
 int GraphParser::findMaxNode(const std::vector<PathWithWeight>& paths)
