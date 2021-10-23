@@ -22,9 +22,18 @@
 #include "MaxWeightFinder.h"
 #include "common_inc.h"
 
-void openFile(std::ifstream& input, int argc, char** argv)
+struct Args
+{
+    std::string inputFilename;
+    int from;
+    int to;
+};
+
+Args parseArgs(int argc, char** argv)
 {
     std::string filePath;
+    int from, to;
+
     if (argc >= 2)
     {
         filePath = argv[1];
@@ -35,25 +44,40 @@ void openFile(std::ifstream& input, int argc, char** argv)
         std::cin >> filePath;
     }
 
-    input.open(filePath);
+    if (argc >= 3)
+    {
+        from = std::stoi(argv[2]);
+    }
+    else
+    {
+        std::cout << "Enter departure city number: ";
+        std::cin >> from;
+    }
+
+    if (argc >= 4)
+    {
+        to = std::stoi(argv[3]);
+    }
+    else
+    {
+        std::cout << "Enter departure city number: ";
+        std::cin >> to;
+    }
+
+    return { filePath, --from, --to };
+}
+
+int main(int argc, char** argv)
+{
+    auto args = parseArgs(argc, argv);
+    std::ifstream input;
+
+    input.open(args.inputFilename);
     if (!input.is_open())
     {
         std::cerr << "ERROR: failed to open input file for reading" << std::endl;
         std::exit(1);
     }
-}
-
-int main(int argc, char** argv)
-{
-    std::ifstream input;
-    openFile(input, argc, argv);
-
-    int from, to;
-    std::cout << "Enter departure city number: ";
-    std::cin >> from;
-    std::cout << "Enter destination city number: ";
-    std::cin >> to;
-    --from, --to;
 
     GraphParser parser;
     MaxWeightFinder finder;
@@ -61,7 +85,7 @@ int main(int argc, char** argv)
     try
     {
         auto graph = parser.parseFromStream(input);
-        int maxWeight = finder.findPathWithMaxWeight(graph, from, to);
+        auto maxWeight = finder.findPathWithMaxWeight(graph, args.from, args.to);
 
         std::cout << "MAX WEIGHT: " << maxWeight << std::endl;
     }
