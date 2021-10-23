@@ -1,3 +1,6 @@
+# Settings
+.idea/
+
 # GNU Make
 bin/
 obj/
@@ -7,6 +10,7 @@ obj/
 *.pdb
 
 # CMake
+.cmake
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
