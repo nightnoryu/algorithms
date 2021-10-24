@@ -2,6 +2,7 @@
 
 int MaxWeightFinder::findPathWithMaxWeight(const Graph& graph, int from, int to)
 {
+    validateNodes(graph, from, to);
     initializeMarks(graph, from);
     int i = from;
 
@@ -12,6 +13,19 @@ int MaxWeightFinder::findPathWithMaxWeight(const Graph& graph, int from, int to)
     } while (hasNoMark(to));
 
     return constantMarks[to];
+}
+
+void MaxWeightFinder::validateNodes(const Graph& graph, int from, int to)
+{
+    if (from >= graph.size())
+    {
+        throw std::logic_error("invalid departure node");
+    }
+
+    if (to >= graph.size())
+    {
+        throw std::logic_error("invalid destination node");
+    }
 }
 
 void MaxWeightFinder::initializeMarks(const Graph& graph, int from)

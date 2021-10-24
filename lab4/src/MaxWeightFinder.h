@@ -9,6 +9,8 @@ public:
     int findPathWithMaxWeight(const Graph& graph, int from, int to);
 
 private:
+    void validateNodes(const Graph& graph, int from, int to);
+
     void initializeMarks(const Graph& graph, int from);
 
     void recalculateTemporaryMarks(const Graph& graph, int i);
