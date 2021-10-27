@@ -3,6 +3,9 @@
 #include "GraphParser.h"
 #include "common_inc.h"
 
+using Marks = std::vector<int>;
+constexpr int MARK_EMPTY = -1;
+
 class MaxWeightFinder
 {
 public:
@@ -17,8 +20,7 @@ private:
 
     int maxTemporaryToConstant();
 
-    bool hasNoMark(int node);
+    int findMaxTemporaryMark();
 
-    std::vector<int> temporaryMarks;
-    std::vector<int> constantMarks;
+    Marks temporaryMarks, constantMarks;
 };
