@@ -3,7 +3,6 @@
 #include "GraphParser.h"
 #include "common_inc.h"
 
-using Marks = std::vector<int>;
 constexpr int MARK_EMPTY = -1;
 
 class MaxWeightFinder
@@ -11,16 +10,19 @@ class MaxWeightFinder
 public:
     int findPathWithMaxWeight(const Graph& graph, int from, int to);
 
+    void printPath() const;
+
 private:
     void validateNodes(const Graph& graph, int from, int to);
 
-    void initializeMarks(const Graph& graph, int from);
+    void initializeMarksAndPath(const Graph& graph, int from);
 
-    void recalculateTemporaryMarks(const Graph& graph, int i);
+    void recalculateTemporaryMarks(const Graph& graph, int i, std::vector<int>& path);
 
     int maxTemporaryToConstant();
 
     int findMaxTemporaryMark();
 
-    Marks temporaryMarks, constantMarks;
+    std::vector<int> temporaryMarks, constantMarks;
+    std::vector<int> path;
 };

@@ -41,9 +41,11 @@ int main(int argc, char** argv)
     try
     {
         auto graph = parser.parseFromStream(input);
-        auto maxWeight = finder.findPathWithMaxWeight(graph, args.from, args.to);
+        auto weight = finder.findPathWithMaxWeight(graph, args.from, args.to);
 
-        std::cout << "MAX WEIGHT: " << maxWeight << std::endl;
+        std::cout << "MAX WEIGHT: " << weight << std::endl;
+        std::cout << "PATH:" << std::endl;
+        finder.printPath();
     }
     catch (const std::exception& e)
     {
