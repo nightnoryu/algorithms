@@ -31,7 +31,7 @@ void GraphParser::initializeGraph(Graph& graph, const std::vector<PathWithWeight
     int maxNode = findMaxNode(paths);
     for (int i = 0; i < maxNode; ++i)
     {
-        graph.push_back(std::vector<int>(maxNode, INT_MAX));
+        graph.push_back(std::vector<int>(maxNode, std::numeric_limits<int>::max()));
         graph[i][i] = 0;
     }
 }
@@ -55,5 +55,6 @@ void GraphParser::fillGraph(Graph& graph, const std::vector<PathWithWeight>& pat
     for (auto const& path : paths)
     {
         graph[path.from - 1][path.to - 1] = path.weight;
+        graph[path.to - 1][path.from - 1] = path.weight;
     }
 }

@@ -32,14 +32,14 @@ void MaxWeightFinder::initializeMarks(const Graph& graph, int from)
 {
     temporaryMarks.assign(graph.size(), -1);
     constantMarks.assign(graph.size(), -1);
-    constantMarks[from] = INT_MAX;
+    constantMarks[from] = std::numeric_limits<int>::max();
 }
 
 void MaxWeightFinder::recalculateTemporaryMarks(const Graph& graph, int i)
 {
     for (int j = 0; j < graph.size(); ++j)
     {
-        if (graph[i][j] != INT_MAX)
+        if (graph[i][j] != std::numeric_limits<int>::max())
         {
             temporaryMarks[j] = std::max(std::min(constantMarks[i], graph[i][j]), temporaryMarks[j]);
         }
