@@ -13,7 +13,7 @@ int MaxWeightFinder::findPathWithMaxWeight(const Graph& graph, int from, int to)
     } while (constantMarks[to] == MARK_EMPTY);
 
     path.push_back(to);
-    normalizePath();
+    normalizePath(graph);
 
     return constantMarks[to];
 }
@@ -104,7 +104,19 @@ int MaxWeightFinder::findMaxTemporaryMark()
     return maxIndex;
 }
 
-void MaxWeightFinder::normalizePath()
+void MaxWeightFinder::normalizePath(const Graph& graph)
 {
-    path.erase(std::unique(path.begin(), path.end()), path.end());
+    std::vector<bool> nodeMarks(graph.size(), false);
+    std::vector<int> newPath;
+
+    for (auto const& node : path)
+    {
+        if (!nodeMarks[node])
+        {
+            newPath.push_back(node);
+            nodeMarks[node] = true;
+        }
+    }
+
+    path = newPath;
 }
