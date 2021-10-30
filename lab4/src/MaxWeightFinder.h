@@ -23,7 +23,7 @@ private:
 
     int findMaxTemporaryMark();
 
-    void normalizePath(const Graph& graph);
+    void normalizePath(size_t maxNodes);
 
     std::vector<int> temporaryMarks, constantMarks;
     std::vector<int> path;
