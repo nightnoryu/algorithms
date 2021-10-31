@@ -33,9 +33,14 @@
  * Убедиться, что присутствует cmake, MinGW, MSYS и компилятор g++.
  */
 
+#include "DominoParser.h"
 #include "common_inc.h"
 
 int main()
 {
-    std::cout << "Test" << std::endl;
+    auto dominos = DominoParser::readFromStream(std::cin);
+    for (auto const& domino : dominos)
+    {
+        std::cout << domino.side1 << ", " << domino.side2 << std::endl;
+    }
 }
