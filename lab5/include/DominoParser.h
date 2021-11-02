@@ -4,8 +4,9 @@
 
 struct Domino
 {
-    int side1;
-    int side2;
+    int side1 = 0;
+    int side2 = 0;
+    bool used = false;
 };
 
 class DominoParser
