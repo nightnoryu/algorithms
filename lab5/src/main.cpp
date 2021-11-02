@@ -33,13 +33,27 @@
  * Убедиться, что присутствует cmake, MinGW, MSYS и компилятор g++.
  */
 
+#include "Args.h"
 #include "DominoParser.h"
 #include "MaxNumberFinder.h"
 #include "common_inc.h"
 
-int main()
+int main(int argc, char** argv)
 {
-    auto dominos = DominoParser::readFromStream(std::cin);
+    std::ifstream input;
+    auto inputFilename = getInputFilename(argc, argv);
+    if (inputFilename.has_value())
+    {
+        input.open(inputFilename.value());
+    }
+    else
+    {
+        input.copyfmt(std::cin);
+        input.clear(std::cin.rdstate());
+        input.basic_ios<char>::rdbuf(std::cin.rdbuf());
+    }
+
+    auto dominos = DominoParser::readFromStream(input);
     const auto max = MaxNumberFinder::findMaxNumber(dominos, WRONG_SIDE);
     std::cout << max << std::endl;
 }

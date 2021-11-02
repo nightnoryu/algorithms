@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCES
     src/main.cpp
+    src/Args.cpp
     src/DominoParser.cpp
     src/MaxNumberFinder.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
