@@ -34,13 +34,12 @@
  */
 
 #include "DominoParser.h"
+#include "MaxNumberFinder.h"
 #include "common_inc.h"
 
 int main()
 {
     auto dominos = DominoParser::readFromStream(std::cin);
-    for (auto const& domino : dominos)
-    {
-        std::cout << domino.side1 << ", " << domino.side2 << std::endl;
-    }
+    const auto max = MaxNumberFinder::findMaxNumber(dominos, WRONG_SIDE);
+    std::cout << max << std::endl;
 }
