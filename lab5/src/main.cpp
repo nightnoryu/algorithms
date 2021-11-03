@@ -58,7 +58,14 @@ int main(int argc, char** argv)
         input.basic_ios<char>::rdbuf(std::cin.rdbuf());
     }
 
-    auto dominos = DominoParser::readFromStream(input);
-    const auto max = MaxNumberFinder::findMaxNumber(dominos);
-    std::cout << "MAX NUMBER: " << max << std::endl;
+    try
+    {
+        auto dominos = DominoParser::parseFromStream(input);
+        const auto max = MaxNumberFinder::findMaxNumber(dominos);
+        std::cout << "MAX NUMBER: " << max << std::endl;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "ERROR: " << e.what() << std::endl;
+    }
 }
