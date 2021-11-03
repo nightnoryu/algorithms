@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 
     try
     {
-        auto dominos = DominoParser::parseFromStream(input);
+        const auto dominos = DominoParser::parseFromStream(input);
         const auto max = MaxNumberFinder::findMaxNumber(dominos);
         std::cout << "MAX NUMBER: " << max << std::endl;
     }

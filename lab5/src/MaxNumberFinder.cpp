@@ -15,47 +15,60 @@ bool sizeFirstLess(const std::string& s1, const std::string& s2)
     return s1 < s2;
 }
 
-std::string MaxNumberFinder::findMaxNumber(std::vector<Domino>& dominos)
+std::string MaxNumberFinder::findMaxNumber(const std::vector<Domino>& dominos)
 {
-    return findMaxNumberRecursive(dominos, WRONG_SIDE);
+    auto dominosAndUsedFlags = pairDominosWithFlags(dominos);
+    return findMaxNumberRecursive(dominosAndUsedFlags, WRONG_SIDE);
 }
 
 std::string MaxNumberFinder::findMaxNumberRecursive(
-    std::vector<Domino>& dominos,
+    std::vector<DominoWithUsedFlag>& dominosWithUsedFlags,
     int lastSide)
 {
     std::string result;
 
-    for (auto& d : dominos)
+    for (auto& pair : dominosWithUsedFlags)
     {
-        if (d.used)
+        if (pair.used)
         {
             continue;
         }
 
-        if (lastSide == WRONG_SIDE || d.side1 == lastSide)
+        if (lastSide == WRONG_SIDE || pair.domino.side1 == lastSide)
         {
-            auto tmp = std::to_string(d.side1) + std::to_string(d.side2);
-            d.used = true;
-            tmp += findMaxNumberRecursive(dominos, d.side2);
-            d.used = false;
+            auto tmp = std::to_string(pair.domino.side1) + std::to_string(pair.domino.side2);
+            pair.used = true;
+            tmp += findMaxNumberRecursive(dominosWithUsedFlags, pair.domino.side2);
+            pair.used = false;
             if (sizeFirstLess(result, tmp))
             {
                 result = std::move(tmp);
             }
         }
 
-        if (lastSide == WRONG_SIDE || d.side2 == lastSide)
+        if (lastSide == WRONG_SIDE || pair.domino.side2 == lastSide)
         {
-            auto tmp = std::to_string(d.side2) + std::to_string(d.side1);
-            d.used = true;
-            tmp += findMaxNumberRecursive(dominos, d.side1);
-            d.used = false;
+            auto tmp = std::to_string(pair.domino.side2) + std::to_string(pair.domino.side1);
+            pair.used = true;
+            tmp += findMaxNumberRecursive(dominosWithUsedFlags, pair.domino.side1);
+            pair.used = false;
             if (sizeFirstLess(result, tmp))
             {
                 result = std::move(tmp);
             }
         }
+    }
+
+    return result;
+}
+
+std::vector<DominoWithUsedFlag> MaxNumberFinder::pairDominosWithFlags(
+    const std::vector<Domino>& dominos)
+{
+    std::vector<DominoWithUsedFlag> result(dominos.size());
+    for (size_t i = 0; i < dominos.size(); ++i)
+    {
+        result[i] = { dominos[i], false };
     }
 
     return result;
