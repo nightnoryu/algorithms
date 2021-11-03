@@ -41,10 +41,15 @@
 int main(int argc, char** argv)
 {
     std::ifstream input;
-    auto inputFilename = getInputFilename(argc, argv);
+    const auto inputFilename = getInputFilename(argc, argv);
     if (inputFilename.has_value())
     {
         input.open(inputFilename.value());
+        if (!input.is_open())
+        {
+            std::cerr << "ERROR: failed to open input file for reading" << std::endl;
+            std::exit(1);
+        }
     }
     else
     {
@@ -54,6 +59,6 @@ int main(int argc, char** argv)
     }
 
     auto dominos = DominoParser::readFromStream(input);
-    const auto max = MaxNumberFinder::findMaxNumber(dominos, WRONG_SIDE);
-    std::cout << max << std::endl;
+    const auto max = MaxNumberFinder::findMaxNumber(dominos);
+    std::cout << "MAX NUMBER: " << max << std::endl;
 }
