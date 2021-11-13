@@ -18,12 +18,22 @@ bool sizeFirstLess(const std::string& s1, const std::string& s2)
 std::string MaxNumberFinder::findMaxNumber(const std::vector<Domino>& dominos)
 {
     auto dominosAndUsedFlags = pairDominosWithFlags(dominos);
+
     return findMaxNumberRecursive(dominosAndUsedFlags, WRONG_SIDE);
 }
 
-std::string MaxNumberFinder::findMaxNumberRecursive(
-    std::vector<DominoWithUsedFlag>& dominosWithUsedFlags,
-    int lastSide)
+std::vector<DominoWithUsedFlag> MaxNumberFinder::pairDominosWithFlags(const std::vector<Domino>& dominos)
+{
+    std::vector<DominoWithUsedFlag> result(dominos.size());
+    for (size_t i = 0; i < dominos.size(); ++i)
+    {
+        result[i] = { dominos[i], false };
+    }
+
+    return result;
+}
+
+std::string MaxNumberFinder::findMaxNumberRecursive(std::vector<DominoWithUsedFlag>& dominosWithUsedFlags, int lastSide)
 {
     std::string result;
 
@@ -57,18 +67,6 @@ std::string MaxNumberFinder::findMaxNumberRecursive(
                 result = std::move(tmp);
             }
         }
-    }
-
-    return result;
-}
-
-std::vector<DominoWithUsedFlag> MaxNumberFinder::pairDominosWithFlags(
-    const std::vector<Domino>& dominos)
-{
-    std::vector<DominoWithUsedFlag> result(dominos.size());
-    for (size_t i = 0; i < dominos.size(); ++i)
-    {
-        result[i] = { dominos[i], false };
     }
 
     return result;

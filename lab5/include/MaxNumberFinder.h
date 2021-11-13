@@ -19,10 +19,7 @@ public:
 private:
     static constexpr int WRONG_SIDE = -1;
 
-    static std::string findMaxNumberRecursive(
-        std::vector<DominoWithUsedFlag>& dominosWithUsedFlags,
-        int lastSide);
+    static std::vector<DominoWithUsedFlag> pairDominosWithFlags(const std::vector<Domino>& dominos);
 
-    static std::vector<DominoWithUsedFlag> pairDominosWithFlags(
-        const std::vector<Domino>& dominos);
+    static std::string findMaxNumberRecursive(std::vector<DominoWithUsedFlag>& dominosWithUsedFlags, int lastSide);
 };

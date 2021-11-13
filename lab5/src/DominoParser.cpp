@@ -1,8 +1,8 @@
 #include "DominoParser.h"
 
-std::vector<Domino> DominoParser::parseFromStream(std::istream& input)
+std::vector<Domino> DominoParser::parse(std::istream& input)
 {
-    auto dominos = parse(input);
+    auto dominos = parseFromStream(input);
     if (input.fail())
     {
         throw std::invalid_argument("invalid input file format");
@@ -11,7 +11,7 @@ std::vector<Domino> DominoParser::parseFromStream(std::istream& input)
     return dominos;
 }
 
-std::vector<Domino> DominoParser::parse(std::istream& input)
+std::vector<Domino> DominoParser::parseFromStream(std::istream& input)
 {
     int n;
     input >> n;

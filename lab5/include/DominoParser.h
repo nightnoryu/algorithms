@@ -11,8 +11,8 @@ struct Domino
 class DominoParser
 {
 public:
-    static std::vector<Domino> parseFromStream(std::istream& input);
+    static std::vector<Domino> parse(std::istream& input);
 
 private:
-    static std::vector<Domino> parse(std::istream& input);
+    static std::vector<Domino> parseFromStream(std::istream& input);
 };
