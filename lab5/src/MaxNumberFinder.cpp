@@ -37,31 +37,31 @@ std::string MaxNumberFinder::findMaxNumberRecursive(std::vector<DominoWithUsedFl
 {
     std::string result;
 
-    for (auto& pair : dominosWithUsedFlags)
+    for (auto& [domino, used] : dominosWithUsedFlags)
     {
-        if (pair.used)
+        if (used)
         {
             continue;
         }
 
-        if (lastSide == WRONG_SIDE || pair.domino.side1 == lastSide)
+        if (lastSide == WRONG_SIDE || domino.side1 == lastSide)
         {
-            auto tmp = std::to_string(pair.domino.side1) + std::to_string(pair.domino.side2);
-            pair.used = true;
-            tmp += findMaxNumberRecursive(dominosWithUsedFlags, pair.domino.side2);
-            pair.used = false;
+            auto tmp = std::to_string(domino.side1) + std::to_string(domino.side2);
+            used = true;
+            tmp += findMaxNumberRecursive(dominosWithUsedFlags, domino.side2);
+            used = false;
             if (sizeFirstLess(result, tmp))
             {
                 result = std::move(tmp);
             }
         }
 
-        if (lastSide == WRONG_SIDE || pair.domino.side2 == lastSide)
+        if (lastSide == WRONG_SIDE || domino.side2 == lastSide)
         {
-            auto tmp = std::to_string(pair.domino.side2) + std::to_string(pair.domino.side1);
-            pair.used = true;
-            tmp += findMaxNumberRecursive(dominosWithUsedFlags, pair.domino.side1);
-            pair.used = false;
+            auto tmp = std::to_string(domino.side2) + std::to_string(domino.side1);
+            used = true;
+            tmp += findMaxNumberRecursive(dominosWithUsedFlags, domino.side1);
+            used = false;
             if (sizeFirstLess(result, tmp))
             {
                 result = std::move(tmp);
